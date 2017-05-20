@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { Calendar } from '../models/Calendar';
+import { TaskDialogComponent } from './task-dialog.component';
 
 @Component({
   selector: 'calendar',
@@ -11,7 +12,7 @@ export class CalendarComponent implements OnInit {
   calendar: Calendar;
   selectedDate: any;
 
-  constructor() {
+  constructor(private _dialog: MdDialog) {
     this.calendar = new Calendar();
   }
 
@@ -30,7 +31,7 @@ export class CalendarComponent implements OnInit {
     this.createCalendarFromDate(this.calendar.currDate);
   }
 
-  public createCalendarFromDate(date: Date) {
+  createCalendarFromDate(date: Date) {
     console.log(this.calendar.currDate.getFullYear() + " " + (this.calendar.currDate.getMonth() + 1) + " " + this.calendar.currDate.getDate());
 
     var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -73,5 +74,20 @@ export class CalendarComponent implements OnInit {
                                 this.calendar.currDate.getMonth() - 1, this.calendar.currDate.getDate());
     }
     this.createCalendarFromDate(this.calendar.currDate);
+  }
+
+  openDayDialog(day: any) {
+    if(day === '') return; // if day not selectedDate
+
+    this.selectedDate = day;
+
+    let dialogRef = this._dialog.open(TaskDialogComponent, {
+      height: '400px',
+      width: '600px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.selectedDate = '-'; // another value which doesn't exist in the calendar
+    });
   }
 }
