@@ -1,0 +1,17 @@
+<button md-raised-button color="primary" (click)="decrementMonth()">Back</button>
+<button md-raised-button color="accent" (click)="incrementMonth()">Forward</button>
+
+<div class="container">
+  <md-grid-list cols="7" rowHeight="25px">
+    <md-grid-tile *ngFor="let weekday of calendar.week" [style.background]="weekday.color">
+      <p>{{ weekday.title }}</p>
+    </md-grid-tile>
+  </md-grid-list>
+
+  <md-grid-list cols="7" rowHeight="100px">
+    <md-grid-tile class="day" *ngFor="let day of calendar.days" [ngClass]="{ selected: day === selectedDate }">
+      <p>{{ day }}</p>
+    </md-grid-tile>
+
+  </md-grid-list>
+</div>

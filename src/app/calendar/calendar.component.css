@@ -1,0 +1,24 @@
+.day {
+    border: 1px double black;
+}
+
+.day:hover {
+    cursor: pointer;
+    background-color: lightskyblue;  
+}
+
+.selected {
+    background-color: lightskyblue;
+}
+
+.priority-low {
+
+}
+
+.priority-medium {
+    
+}
+
+.priority-high {
+    
+}
