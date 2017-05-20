@@ -83,7 +83,8 @@ export class CalendarComponent implements OnInit {
 
     let dialogRef = this._dialog.open(TaskDialogComponent, {
       height: '400px',
-      width: '600px'
+      width: '600px',
+      data: this.selectedDate
     });
 
     dialogRef.afterClosed().subscribe(result => {
