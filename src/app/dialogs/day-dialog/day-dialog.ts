@@ -2,10 +2,10 @@ import { Component, Inject } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 
 @Component({
-  templateUrl: './day-dialog.component.html',
-  styleUrls: ['./day-dialog.component.css']
+  templateUrl: './day-dialog.html',
+  styleUrls: ['./day-dialog.css']
 })
-export class DayDialogComponent {
+export class DayDialog {
   folders = [
     {
       name: 'Photos',
@@ -78,7 +78,7 @@ export class DayDialogComponent {
     { value: 'byTime', viewValue: 'By time' },
   ];
 
-  constructor(public dialogRef: MdDialogRef<DayDialogComponent>,
+  constructor(public dialogRef: MdDialogRef<DayDialog>,
     @Inject(MD_DIALOG_DATA) public selectedDate: any) {
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { Calendar } from '../models/Calendar';
-import { DayDialogComponent } from '../dialogs/day-dialog/day-dialog.component';
+import { DayDialog } from '../dialogs/day-dialog/day-dialog';
 
 @Component({
   selector: 'calendar',
@@ -92,7 +92,7 @@ export class CalendarComponent implements OnInit {
 
     this.selectedDate = day;
 
-    let dialogRef = this._dialog.open(DayDialogComponent, {
+    let dialogRef = this._dialog.open(DayDialog, {
       height: '500px',
       width: '800px',
       data: this.selectedDate + '.' + (this.calendar.currDate.getMonth() + 1) + '.' + this.calendar.currDate.getFullYear()

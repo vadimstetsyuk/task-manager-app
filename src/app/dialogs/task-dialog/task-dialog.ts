@@ -4,13 +4,13 @@ import { Task } from '../../models/Task';
 
 
 @Component({
-    templateUrl: './task-dialog.component.html',
-    styleUrls: ['./task-dialog.component.css']
+    templateUrl: './task-dialog.html',
+    styleUrls: ['./task-dialog.css']
 })
-export class TaskDialogComponent {
+export class TaskDialog {
     task: Task;
 
-    constructor(public dialogRef: MdDialogRef<TaskDialogComponent>) {
+    constructor(public dialogRef: MdDialogRef<TaskDialog>) {
         this.task = new Task();
     }
 
