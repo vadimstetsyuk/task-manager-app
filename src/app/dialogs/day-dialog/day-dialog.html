@@ -10,14 +10,18 @@
 
 <div class="tasks">
     <md-list>
-        <md-list-item class="task" *ngFor="let folder of folders">
+        <md-list-item class="task" *ngFor="let task of actualTasks">
             <md-icon md-list-icon>folder</md-icon>
-            <h4 md-line>{{folder.name}}</h4>
-            <p md-line> {{folder.updated | date}} </p>
+            <h4 md-line>{{task.title}}</h4>
+            <p md-line> {{task.start | date}} </p>
             <button md-raised-button color="primary">Edit</button>
             <button md-mini-fab color="warn"><md-icon>delete</md-icon></button>
         </md-list-item>
     </md-list>
+    <div [ngClass]="{ 'empty-day': actualTasks.length}">
+        <h3>There are nothing tasks for this date :( <br>
+        But you might create a new one!</h3>
+    </div>
 </div>
 
 <md-dialog-actions>

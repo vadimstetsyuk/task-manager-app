@@ -24,3 +24,7 @@ button {
     display: inline-flex;
     justify-content: space-between;
 }
+
+.empty-day {
+     visibility: hidden;
+}

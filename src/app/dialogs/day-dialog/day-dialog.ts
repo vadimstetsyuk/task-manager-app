@@ -1,77 +1,15 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { LocalStorageService } from 'angular-2-local-storage';
+import { Task } from '../../models/Task';
 
 @Component({
   templateUrl: './day-dialog.html',
   styleUrls: ['./day-dialog.css']
 })
-export class DayDialog {
-  folders = [
-    {
-      name: 'Photos',
-      updated: new Date('1/1/16'),
-    },
-    {
-      name: 'Recipes',
-      updated: new Date('1/17/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    },
-    {
-      name: 'Recipes',
-      updated: new Date('1/17/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    }
-  ];
+export class DayDialog implements OnInit {
+  tasks: Task[];
+  actualTasks: Task[];
 
   sortMethods = [
     { value: 'byPriority', viewValue: 'By priority' },
@@ -79,6 +17,17 @@ export class DayDialog {
   ];
 
   constructor(public dialogRef: MdDialogRef<DayDialog>,
-    @Inject(MD_DIALOG_DATA) public selectedDate: any) {
+    @Inject(MD_DIALOG_DATA) public selectedDate: any,
+    private localStorageService: LocalStorageService) {
+      this.actualTasks = [];
+  }
+
+  ngOnInit() {
+    this.tasks = <Task[]>this.localStorageService.get('tasks');
+
+    for (let i = 0; i < this.tasks.length; i++) {
+      if (this.tasks[i].start === this.selectedDate)
+        this.actualTasks.push(this.tasks[i]);
+    }
   }
 }
