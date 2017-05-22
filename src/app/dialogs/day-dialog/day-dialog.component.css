@@ -1,0 +1,26 @@
+.title {
+    text-align: center;
+}
+
+.sorting {
+    width: 100%;
+}
+
+.tasks {
+    height: 70%;
+    overflow-y: scroll;
+}
+
+button {
+    margin: 5px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.result {
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+}

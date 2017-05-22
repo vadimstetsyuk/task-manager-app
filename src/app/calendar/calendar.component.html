@@ -1,9 +1,9 @@
 <div class="container">
   <div class="header">
     <button md-icon-button (click)="decrementMonth()"><i class="material-icons">keyboard_arrow_left</i></button>
-    
-    <h3> {{ (calendar.currDate.getMonth() + 1) + "." + calendar.currDate.getFullYear() }} </h3> 
-    
+
+    <h3> {{ (calendar.currDate.getMonth() + 1) + "." + calendar.currDate.getFullYear() }} </h3>
+
     <button md-icon-button (click)="incrementMonth()"><i class="material-icons">keyboard_arrow_right</i></button>
   </div>
   <md-grid-list cols="7" rowHeight="25px">
@@ -12,10 +12,9 @@
     </md-grid-tile>
   </md-grid-list>
 
-  <md-grid-list cols="7" rowHeight="90px">
+  <md-grid-list cols="7" rowHeight="80px">
     <md-grid-tile class="day" *ngFor="let day of calendar.days" (click)="openDayDialog(day)" [ngClass]="{ selected: day === selectedDate }">
-      <p>{{ day }}</p>
+      <div class="day-number">{{ day }}</div>
     </md-grid-tile>
-
   </md-grid-list>
 </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { Calendar } from '../models/Calendar';
-import { TaskDialogComponent } from './task-dialog.component';
+import { DayDialogComponent } from '../dialogs/day-dialog/day-dialog.component';
 
 @Component({
   selector: 'calendar',
@@ -34,18 +34,29 @@ export class CalendarComponent implements OnInit {
   createCalendarFromDate(date: Date) {
     console.log(this.calendar.currDate.getFullYear() + " " + (this.calendar.currDate.getMonth() + 1) + " " + this.calendar.currDate.getDate());
 
-    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);    
     let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-
+    let fDay;
+    (firstDay.getDay() === 0) ? fDay = 7 : fDay = firstDay.getDay(); // fix display data when day === Sunday
+    
     /* 
       Fill the array of days for current month
     */
-    for (let i = 1, k = 0; i <= lastDay.getDate(); k++) {
-      if (k < firstDay.getDay() - 1) {
+    for (let i = 1, k = 1; i <= lastDay.getDate(); k++) {
+      if (k < fDay) {
         this.calendar.days.push('');
       } else {
         this.calendar.days.push(i.toString());
         i++;
+      }
+
+      // completing row to end
+      if(i > lastDay.getDate()) {
+        let element = 7 - lastDay.getDay();
+        if(element === 7) return;
+        for(;element > 0; element--) {
+          this.calendar.days.push('');
+        }
       }
     }
   }
@@ -81,10 +92,10 @@ export class CalendarComponent implements OnInit {
 
     this.selectedDate = day;
 
-    let dialogRef = this._dialog.open(TaskDialogComponent, {
-      height: '400px',
-      width: '600px',
-      data: this.selectedDate
+    let dialogRef = this._dialog.open(DayDialogComponent, {
+      height: '500px',
+      width: '800px',
+      data: this.selectedDate + '.' + (this.calendar.currDate.getMonth() + 1) + '.' + this.calendar.currDate.getFullYear()
     });
 
     dialogRef.afterClosed().subscribe(result => {

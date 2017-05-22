@@ -5,9 +5,9 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { CalendarComponent } from './calendar/calendar.component';
-import { TaskDialogComponent } from './calendar/task-dialog.component';
+import { DayDialogComponent } from './dialogs/day-dialog/day-dialog.component';
 
-import { MaterialModule } from '@angular/material';
+import { MaterialModule, MdNativeDateModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -16,14 +16,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     HttpModule,
     MaterialModule,
+    MdNativeDateModule,
     BrowserAnimationsModule
   ],
   declarations: [
     AppComponent,
     CalendarComponent,
-    TaskDialogComponent
+    DayDialogComponent
   ],
-  entryComponents: [TaskDialogComponent],
+  entryComponents: [DayDialogComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
