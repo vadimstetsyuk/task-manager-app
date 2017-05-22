@@ -1,6 +1,8 @@
+import { Day } from './Day';
+
 export class Calendar {
     week: any;
-    days: string[];
+    days: Day[];
     currDate: Date;
 
     public constructor() {
