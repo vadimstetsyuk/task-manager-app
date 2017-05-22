@@ -7,11 +7,12 @@ import { AppComponent } from './app.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { DayDialog } from './dialogs/day-dialog/day-dialog';
 import { TaskDialog } from './dialogs/task-dialog/task-dialog';
-import { UploadTasksDialog  }from './dialogs/upload-tasks-dialog/upload-tasks-dialog';
+import { UploadTasksDialog } from './dialogs/upload-tasks-dialog/upload-tasks-dialog';
 import { ToolbarComponent } from './toolbar/toolbar.component';
- 
+
 import { MaterialModule, MdNativeDateModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LocalStorageModule } from 'angular-2-local-storage';
 
 import { TaskService } from './services/task.service';
 
@@ -22,8 +23,12 @@ import { TaskService } from './services/task.service';
     HttpModule,
     MaterialModule,
     MdNativeDateModule,
-    BrowserAnimationsModule
-  ],
+    BrowserAnimationsModule,
+    LocalStorageModule.withConfig({
+      prefix: 'my-app',
+      storageType: 'localStorage'
+    })
+    ],
   declarations: [
     AppComponent,
     CalendarComponent,
