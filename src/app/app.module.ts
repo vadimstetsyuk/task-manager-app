@@ -13,6 +13,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MaterialModule, MdNativeDateModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { TaskService } from './services/task.service';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -31,7 +33,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ToolbarComponent
   ],
   entryComponents: [DayDialog, TaskDialog, UploadTasksDialog],
-  providers: [],
+  providers: [TaskService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

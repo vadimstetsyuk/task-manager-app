@@ -1,0 +1,23 @@
+[
+    {
+        "title": "Task 1",
+        "start": "12.05.2017",
+        "duration": 12,
+        "priority": "low",
+        "description": "test task"
+    },
+    {
+        "title": "Task 2",
+        "start": "12.05.2017",
+        "duration": 12,
+        "priority": "low",
+        "description": "test task"
+    },
+    {
+        "title": "Task 3",
+        "start": "12.05.2017",
+        "duration": 12,
+        "priority": "low",
+        "description": "test task"
+    }
+]
