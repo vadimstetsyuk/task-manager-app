@@ -36,6 +36,7 @@ export class CalendarComponent implements OnInit {
   }
 
   createCalendarFromDate(date: Date) {
+    this.calendar.days = [];
     this.tasks = <Task[]>this.localStorageService.get('tasks');
     console.log(this.calendar.currDate.getFullYear() + " " + (this.calendar.currDate.getMonth() + 1) + " " + this.calendar.currDate.getDate());
 
@@ -64,7 +65,6 @@ export class CalendarComponent implements OnInit {
         }
       }
     }
-
     this.defineColorOfTheDays();
   }
 
@@ -74,8 +74,7 @@ export class CalendarComponent implements OnInit {
       let countTaskForDay = 0;
       for (let j = 0; j < this.tasks.length; j++) {
         let currDate = (this.calendar.currDate.getMonth() + 1) + '.' + this.calendar.days[i].title + "." + this.calendar.currDate.getFullYear();
-        console.log(currDate);
-        
+
         if (this.tasks[j].start.toString() == currDate)
           countTaskForDay++;
       }
@@ -100,10 +99,6 @@ export class CalendarComponent implements OnInit {
         continue;
       }
     }
-
-    // for (let i = 0; i < this.calendar.days.length; i++) {
-    //   console.log(this.calendar.days[i].title + " " + this.calendar.days[i].color);
-    // }
   }
 
   incrementMonth() {
@@ -145,6 +140,7 @@ export class CalendarComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.selectedDate = '-'; // another value which doesn't exist in the calendar
+      this.createCalendarFromDate(this.calendar.currDate);
     });
   }
 }
