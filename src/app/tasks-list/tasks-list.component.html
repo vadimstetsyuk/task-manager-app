@@ -1,0 +1,8 @@
+<md-list>
+  <h3 md-subheader>Tasks</h3>
+  <md-list-item *ngFor="let task of tasks">
+    <md-icon md-list-icon>folder</md-icon>
+    <h4 md-line>{{task.title}}</h4>
+    <p md-line> {{task.start | date}} </p>
+  </md-list-item>
+</md-list>
