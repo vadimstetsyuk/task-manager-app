@@ -22,8 +22,8 @@ export class ToolbarComponent {
 
     openUploadTasksDialog() {
         let dialogRef = this._uploadTasksDialog.open(UploadTasksDialog, {
-            height: '400px',
-            width: '550px'
+            height: '190px',
+            width: '500px'
         });
     }
 }
