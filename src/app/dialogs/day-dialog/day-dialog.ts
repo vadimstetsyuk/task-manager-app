@@ -19,15 +19,31 @@ export class DayDialog implements OnInit {
   constructor(public dialogRef: MdDialogRef<DayDialog>,
     @Inject(MD_DIALOG_DATA) public selectedDate: any,
     private localStorageService: LocalStorageService) {
-      this.actualTasks = [];
+    this.actualTasks = [];
   }
 
   ngOnInit() {
     this.tasks = <Task[]>this.localStorageService.get('tasks');
+    this.getActualTasks();
+  }
 
+  getActualTasks() {
+    this.actualTasks = [];
+    
     for (let i = 0; i < this.tasks.length; i++) {
       if (this.tasks[i].start === this.selectedDate)
         this.actualTasks.push(this.tasks[i]);
     }
+  }
+
+  deleteTask(task: Task) {
+    let index = this.tasks.indexOf(task);
+
+    if (index > -1)
+      this.tasks.splice(index, 1);
+
+    this.getActualTasks();
+
+    this.localStorageService.set('tasks', this.tasks);
   }
 }
