@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
+import { TaskDialogComponent } from '../dialogs/task-dialog/task-dialog.component';
 
 @Component({
     selector: 'toolbar',
@@ -9,5 +10,12 @@ import { MdDialog, MdDialogRef } from '@angular/material';
 
 export class ToolbarComponent {
 
-    constructor() {}
+    constructor(private _dialog: MdDialog) {}
+
+    openTaskDialog() {
+        let dialogRef = this._dialog.open(TaskDialogComponent, {
+            height: '400px',
+            width: '550px'
+        });
+    }
 }
