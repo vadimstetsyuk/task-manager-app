@@ -26,7 +26,6 @@ export class CalendarComponent implements OnInit {
   ngOnInit() {
     let date = new Date();
     this.calendar.currDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
     this.calendar.week = [{ title: 'Monday', color: 'lightgrey' },
     { title: 'Tuesday', color: 'lightgrey' },
     { title: 'Wednesday', color: 'lightgrey' },
@@ -36,6 +35,7 @@ export class CalendarComponent implements OnInit {
     { title: 'Sunday', color: 'lightgrey' }];
 
     this.createCalendarFromDate(this.calendar.currDate);
+    this.getTasks();
   }
 
   createCalendarFromDate(date: Date) {
@@ -79,7 +79,7 @@ export class CalendarComponent implements OnInit {
       for (let j = 0; j < this.tasks.length; j++) {
         let currDate = (this.calendar.currDate.getMonth() + 1) + '.' + this.calendar.days[i].title + "." + this.calendar.currDate.getFullYear();
 
-        if (this.tasks[j].start.toString() == currDate)
+        if (this.tasks[j].start == currDate)
           countTaskForDay++;
       }
 
@@ -105,6 +105,14 @@ export class CalendarComponent implements OnInit {
     }
   }
 
+  getTasks() {
+    this.tasks = <Task[]>this.localStorageService.get('tasks');
+    for (let j = 0; j < this.tasks.length; j++) {
+      console.log(this.tasks[j]);
+
+    }
+  }
+
   incrementMonth() {
     this.calendar.days = [];
 
@@ -116,6 +124,7 @@ export class CalendarComponent implements OnInit {
         this.calendar.currDate.getMonth() + 1, this.calendar.currDate.getDate());
     }
     this.createCalendarFromDate(this.calendar.currDate);
+    this.defineColorOfTheDays();
   }
 
   decrementMonth() {
@@ -129,6 +138,7 @@ export class CalendarComponent implements OnInit {
         this.calendar.currDate.getMonth() - 1, this.calendar.currDate.getDate());
     }
     this.createCalendarFromDate(this.calendar.currDate);
+    this.defineColorOfTheDays();
   }
 
   openDayDialog(day: any) {

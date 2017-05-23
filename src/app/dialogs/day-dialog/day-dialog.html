@@ -1,9 +1,12 @@
 <h1 md-dialog-title class="title">The list of tasks on the date: {{ selectedDate }}</h1>
 
 <div class="sorting">
-    <md-select placeholder="Sorting by">
-        <md-option *ngFor="let sort of sortMethods" [value]="sort.value">
-            {{ sort.viewValue }}
+    <md-select placeholder="Sorting by" [(ngModel)]="myState" floatPlaceholder="never">
+        <md-option [value]="byPriority" (click)="sortingByPriority()">
+            By priority
+        </md-option>
+        <md-option [value]="byTime" (click)="sortingByTime()">
+            By time
         </md-option>
     </md-select>
 </div>
@@ -14,13 +17,13 @@
             <md-icon md-list-icon>folder</md-icon>
             <h4 md-line>{{task.title}}</h4>
             <p md-line> {{task.start | date}} </p>
+            <p class="spacer">{{ task.duration }}s.</p>
             <button md-raised-button color="primary">Edit</button>
             <button md-mini-fab color="warn" (click)="deleteTask(task)"><md-icon>delete</md-icon></button>
         </md-list-item>
     </md-list>
     <div [ngClass]="{ 'empty-day': actualTasks.length}">
-        <h3>There are nothing tasks for this date :( <br>
-        But you might create a new one!</h3>
+        <h3>There are nothing tasks for this date :( <br> But you might create a new one!</h3>
     </div>
 </div>
 

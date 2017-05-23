@@ -1,6 +1,6 @@
 <h1 md-dialog-title class="title">Creating new task</h1>
 
-<form #myForm="ngForm">
+<form>
     <md-input-container class="full-width">
         <input mdInput maxlength="100" [(ngModel)]="task.title" name="title" placeholder="Title" required>
         <md-hint align="end">{{ task.title.length }} / 100</md-hint>
@@ -17,7 +17,7 @@
             </td>
             <td>
                 <md-input-container #time>
-                    <input mdInput type="time" placeholder="Time" required>
+                    <input mdInput  type="time" placeholder="Time" required>
                 </md-input-container>
             </td>
             <td>
@@ -35,9 +35,9 @@
     </table>
 
     <md-select class="full-width" placeholder="Priority" [(ngModel)]="task.priority" name="priority" required>
-        <md-option [value]="low">Low</md-option>
-        <md-option [value]="medium">Medium</md-option>
-        <md-option [value]="high">High</md-option>
+        <md-option [value]="3">Low</md-option>
+        <md-option [value]="2">Medium</md-option>
+        <md-option [value]="1">High</md-option>
     </md-select>
 
     <md-input-container class="full-width">
@@ -46,7 +46,8 @@
     </md-input-container>
 
     <md-dialog-actions class="result">
-        <button type="submit" md-raised-button color="primary" (click)="submit(myForm)">Create task</button>
+        <button md-raised-button md-dialog-close color="primary" 
+        (click)="submit(date._mdInputChild.value, time._mdInputChild.value, type.selected.viewValue)">Create task</button>
         <button md-raised-button md-dialog-close>Close</button>
     </md-dialog-actions>
 </form>

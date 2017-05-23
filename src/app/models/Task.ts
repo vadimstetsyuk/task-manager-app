@@ -1,15 +1,15 @@
 export class Task {
     title: string;
-    start: Date;
+    start: string;
     duration: number;
-    priority: string;
+    priority: number;
     description: string;
 
     constructor() {
         this.title = '';
-        this.start = new Date();
+        this.start = '';
         this.duration = 0;
-        this.priority = 'low';
+        this.priority = 1;
         this.description = '';
     }
 }

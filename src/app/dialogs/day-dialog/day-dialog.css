@@ -6,6 +6,10 @@
     width: 100%;
 }
 
+.spacer {
+    margin: 5px;
+}
+
 .tasks {
     height: 70%;
     overflow-y: scroll;

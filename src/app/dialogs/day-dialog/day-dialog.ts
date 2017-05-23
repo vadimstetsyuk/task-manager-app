@@ -11,11 +11,6 @@ export class DayDialog implements OnInit {
   tasks: Task[];
   actualTasks: Task[];
 
-  sortMethods = [
-    { value: 'byPriority', viewValue: 'By priority' },
-    { value: 'byTime', viewValue: 'By time' },
-  ];
-
   constructor(public dialogRef: MdDialogRef<DayDialog>,
     @Inject(MD_DIALOG_DATA) public selectedDate: any,
     private localStorageService: LocalStorageService) {
@@ -24,13 +19,15 @@ export class DayDialog implements OnInit {
 
   ngOnInit() {
     this.tasks = <Task[]>this.localStorageService.get('tasks');
-    if(this.tasks)
+    if (this.tasks) {
       this.getActualTasks();
+      this.sortingByPriority();
+    }
   }
 
   getActualTasks() {
     this.actualTasks = [];
-    
+
     for (let i = 0; i < this.tasks.length; i++) {
       if (this.tasks[i].start === this.selectedDate)
         this.actualTasks.push(this.tasks[i]);
@@ -46,5 +43,13 @@ export class DayDialog implements OnInit {
     this.getActualTasks();
 
     this.localStorageService.set('tasks', this.tasks);
+  }
+
+  sortingByPriority() {
+    this.actualTasks.sort((a, b) => { return (a.priority > b.priority) ? 1 : ((b.priority > a.priority) ? -1 : 0); });
+  }
+
+  sortingByTime() {
+    this.actualTasks.sort((a, b) => { return (a.start > b.start) ? 1 : ((b.start > a.start) ? -1 : 0); });
   }
 }
