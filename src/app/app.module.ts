@@ -8,7 +8,6 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { DayDialog } from './dialogs/day-dialog/day-dialog';
 import { TaskDialog } from './dialogs/task-dialog/task-dialog';
 import { UploadTasksDialog } from './dialogs/upload-tasks-dialog/upload-tasks-dialog';
-import { ToolbarComponent } from './toolbar/toolbar.component';
 import { TasksListComponent } from './tasks-list/tasks-list.component';
 
 import { MaterialModule, MdNativeDateModule } from '@angular/material';
@@ -36,7 +35,6 @@ import { TaskService } from './services/task.service';
     DayDialog,
     TaskDialog,
     UploadTasksDialog,
-    ToolbarComponent, 
     TasksListComponent
   ],
   entryComponents: [DayDialog, TaskDialog, UploadTasksDialog],

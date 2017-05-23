@@ -1,22 +1,38 @@
-<div class="container">
-  <div class="header">
-    <button md-icon-button (click)="decrementMonth()"><i class="material-icons">keyboard_arrow_left</i></button>
+<md-toolbar color="warn">
+  <span>Calendar</span>
+  <span class="spacer"></span>
 
-    <h3> {{ (calendar.currDate.getMonth() + 1) + "." + calendar.currDate.getFullYear() }} </h3>
+  <button md-raised-button color="primary" (click)="openTaskDialog()">Create new task</button>
+  <button md-raised-button color="primary" (click)="openUploadTasksDialog()">Upload tasks</button>
+</md-toolbar>
 
-    <button md-icon-button (click)="incrementMonth()"><i class="material-icons">keyboard_arrow_right</i></button>
-  </div>
-  <md-grid-list cols="7" rowHeight="25px">
-    <md-grid-tile *ngFor="let weekday of calendar.week" [style.background]="weekday.color">
-      <p>{{ weekday.title }}</p>
-    </md-grid-tile>
-  </md-grid-list>
+<md-tab-group>
+  <md-tab label="Calendar">
 
-  <md-grid-list cols="7" rowHeight="80px">
-    <md-grid-tile class="day" *ngFor="let day of calendar.days" (click)="openDayDialog(day.title)" 
-    [ngClass]="{ 'selected': day.title === selectedDate }" 
-    [style.background]="day.color">
-      <div class="day-number">{{ day.title }}</div>
-    </md-grid-tile>
-  </md-grid-list>
-</div>
+    <div class="container">
+      <div class="header">
+        <button md-icon-button (click)="decrementMonth()"><i class="material-icons">keyboard_arrow_left</i></button>
+
+        <h3> {{ (calendar.currDate.getMonth() + 1) + "." + calendar.currDate.getFullYear() }} </h3>
+
+        <button md-icon-button (click)="incrementMonth()"><i class="material-icons">keyboard_arrow_right</i></button>
+      </div>
+      <md-grid-list cols="7" rowHeight="25px">
+        <md-grid-tile *ngFor="let weekday of calendar.week" [style.background]="weekday.color">
+          <p>{{ weekday.title }}</p>
+        </md-grid-tile>
+      </md-grid-list>
+
+      <md-grid-list cols="7" rowHeight="80px">
+        <md-grid-tile class="day" *ngFor="let day of calendar.days" (click)="openDayDialog(day.title)" [ngClass]="{ 'selected': day.title === selectedDate }"
+          [style.background]="day.color">
+          <div class="day-number">{{ day.title }}</div>
+        </md-grid-tile>
+      </md-grid-list>
+    </div>
+
+  </md-tab>
+  <md-tab label="List of tasks">
+    <tasks-list></tasks-list>
+  </md-tab>
+</md-tab-group>

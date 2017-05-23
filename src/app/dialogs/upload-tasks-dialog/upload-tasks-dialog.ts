@@ -27,7 +27,7 @@ export class UploadTasksDialog {
 
         setTimeout(() => {
             this.localStorageService.set('tasks', this.tasks);
-        }, 1000);
+        }, 500);
 
         this.snackBar.open('The tasks successfully uploaded', 'Ok', {
             duration: 5000,

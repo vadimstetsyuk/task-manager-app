@@ -3,6 +3,8 @@ import { MdDialog, MdDialogRef } from '@angular/material';
 import { Calendar } from '../models/Calendar';
 import { Task } from '../models/Task';
 import { DayDialog } from '../dialogs/day-dialog/day-dialog';
+import { TaskDialog } from '../dialogs/task-dialog/task-dialog';
+import { UploadTasksDialog } from '../dialogs/upload-tasks-dialog/upload-tasks-dialog';
 import { LocalStorageService } from 'angular-2-local-storage';
 
 @Component({
@@ -15,7 +17,8 @@ export class CalendarComponent implements OnInit {
   tasks: Task[];
   selectedDate: any;
 
-  constructor(private _dialog: MdDialog, private localStorageService: LocalStorageService) {
+  constructor(private _dialog: MdDialog, private localStorageService: LocalStorageService,
+    private _taskDialog: MdDialog, private _uploadTasksDialog: MdDialog) {
     this.calendar = new Calendar();
     this.tasks = [];
   }
@@ -65,7 +68,8 @@ export class CalendarComponent implements OnInit {
         }
       }
     }
-    this.defineColorOfTheDays();
+    if (this.tasks)
+      this.defineColorOfTheDays();
   }
 
   defineColorOfTheDays() {
@@ -141,6 +145,34 @@ export class CalendarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.selectedDate = '-'; // another value which doesn't exist in the calendar
       this.createCalendarFromDate(this.calendar.currDate);
+    });
+  }
+
+  openTaskDialog() {
+    let dialogRef = this._taskDialog.open(TaskDialog, {
+      height: '400px',
+      width: '550px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.selectedDate = '-'; // another value which doesn't exist in the calendar
+      setTimeout(() => {
+        this.createCalendarFromDate(this.calendar.currDate);
+      }, 1000);
+    });
+  }
+
+  openUploadTasksDialog() {
+    let dialogRef = this._uploadTasksDialog.open(UploadTasksDialog, {
+      height: '190px',
+      width: '500px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.selectedDate = '-';
+      setTimeout(() => {
+        this.createCalendarFromDate(this.calendar.currDate);
+      }, 1000);
     });
   }
 }

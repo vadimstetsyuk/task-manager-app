@@ -17,6 +17,14 @@
     justify-content: space-between;
 }
 
+button {
+  margin: 5px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
 .priority-low {
     background-color: green;
 }

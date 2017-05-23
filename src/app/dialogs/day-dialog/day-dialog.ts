@@ -24,7 +24,8 @@ export class DayDialog implements OnInit {
 
   ngOnInit() {
     this.tasks = <Task[]>this.localStorageService.get('tasks');
-    this.getActualTasks();
+    if(this.tasks)
+      this.getActualTasks();
   }
 
   getActualTasks() {

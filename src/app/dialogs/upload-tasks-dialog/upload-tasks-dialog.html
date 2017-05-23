@@ -1,10 +1,12 @@
 <h1 md-dialog-title class="title">Upload tasks from url</h1>
 
-<md-input-container class="full-width" #url>
-    <input mdInput type="url" placeholder="Url" required>
-</md-input-container>
+<form>
+    <md-input-container class="full-width" #url>
+        <input mdInput type="url" placeholder="Url" required>
+    </md-input-container>
 
-<md-dialog-actions class="result">
-    <button type="submit" md-dialog-close color="primary" (click)="uploadTasks(url)">Upload tasks</button>
-    <button md-raised-button md-dialog-close>Close</button>
-</md-dialog-actions>
+    <md-dialog-actions class="result">
+        <button md-raised-button md-dialog-close color="primary" (click)="uploadTasks(url)">Upload tasks</button>
+        <button md-raised-button md-dialog-close>Close</button>
+    </md-dialog-actions>
+</form>
