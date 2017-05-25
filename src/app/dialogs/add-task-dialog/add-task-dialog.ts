@@ -8,10 +8,10 @@ import { CustomDate } from '../../models/CustomDate';
     templateUrl: './add-task-dialog.html',
     styleUrls: ['./add-task-dialog.css']
 })
-export class TaskDialog {
+export class AddTaskDialog {
     task: Task;
 
-    constructor(public dialogRef: MdDialogRef<TaskDialog>,
+    constructor(public dialogRef: MdDialogRef<AddTaskDialog>,
 
         private localStorageService: LocalStorageService) {
         this.task = new Task('', <CustomDate>{}, '', '', '');

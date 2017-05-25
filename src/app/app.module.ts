@@ -6,7 +6,8 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { DayDialog } from './dialogs/day-dialog/day-dialog';
-import { TaskDialog } from './dialogs/add-task-dialog/add-task-dialog';
+import { AddTaskDialog } from './dialogs/add-task-dialog/add-task-dialog';
+import { EditTaskDialog } from './dialogs/edit-task-dialog/edit-task-dialog';
 import { UploadTasksDialog } from './dialogs/upload-tasks-dialog/upload-tasks-dialog';
 import { TasksListComponent } from './tasks-list/tasks-list.component';
 
@@ -33,11 +34,12 @@ import { TaskService } from './services/task.service';
     AppComponent,
     CalendarComponent,
     DayDialog,
-    TaskDialog,
+    AddTaskDialog,
+    EditTaskDialog,
     UploadTasksDialog,
     TasksListComponent
   ],
-  entryComponents: [DayDialog, TaskDialog, UploadTasksDialog],
+  entryComponents: [DayDialog, AddTaskDialog, EditTaskDialog, UploadTasksDialog],
   providers: [TaskService],
   bootstrap: [AppComponent]
 })

@@ -4,7 +4,7 @@ import { Calendar } from '../models/Calendar';
 import { Task } from '../models/Task';
 import { CustomDate } from '../models/CustomDate';
 import { DayDialog } from '../dialogs/day-dialog/day-dialog';
-import { TaskDialog } from '../dialogs/add-task-dialog/add-task-dialog';
+import { AddTaskDialog } from '../dialogs/add-task-dialog/add-task-dialog';
 import { UploadTasksDialog } from '../dialogs/upload-tasks-dialog/upload-tasks-dialog';
 import { LocalStorageService } from 'angular-2-local-storage';
 
@@ -153,8 +153,8 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  openTaskDialog() {
-    let dialogRef = this._taskDialog.open(TaskDialog, {
+  openAddTaskDialog() {
+    let dialogRef = this._taskDialog.open(AddTaskDialog, {
       height: '370px',
       width: '550px'
     });

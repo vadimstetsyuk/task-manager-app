@@ -1,0 +1,47 @@
+<h1 md-dialog-title class="title">Creating new task</h1>
+
+<form>
+    <md-input-container class="full-width">
+        <input mdInput maxlength="100" [(ngModel)]="task.title" name="title" placeholder="Title" required>
+        <md-hint align="end">{{ task.title.length }} / 100</md-hint>
+    </md-input-container>
+
+    <table class="full-width" cellspacing="1">
+        <tr>
+            <td>
+                <md-input-container #date>
+                    <input mdInput [mdDatepicker]="picker" placeholder="Choose a date" disabled required>
+                    <button mdSuffix [mdDatepickerToggle]="picker"></button>
+                </md-input-container>
+                <md-datepicker #picker></md-datepicker>
+            </td>
+            <td>
+                <md-input-container #time>
+                    <input mdInput  type="time" placeholder="Time (h:m)" required>
+                </md-input-container>
+            </td>
+            <td>
+                <md-input-container>
+                    <input #duration mdInput type="number" [(ngModel)]="task.duration" name="duration" placeholder="Duration (m)" min="0" required>
+                </md-input-container>
+            </td>
+        </tr>
+    </table>
+
+    <md-select class="full-width" placeholder="Priority" [(ngModel)]="task.priority" name="priority" required>
+        <md-option [value]="3">Low</md-option>
+        <md-option [value]="2">Medium</md-option>
+        <md-option [value]="1">High</md-option>
+    </md-select>
+
+    <md-input-container class="full-width">
+        <textarea mdInput maxlength="300" placeholder="Description" [(ngModel)]="task.description" name="description"></textarea>
+        <md-hint align="end">{{ task.description.length }} / 300</md-hint>
+    </md-input-container>
+
+    <md-dialog-actions class="result">
+        <button md-raised-button md-dialog-close color="primary" 
+        (click)="submit(date._mdInputChild.value, time._mdInputChild.value)">Create task</button>
+        <button md-raised-button md-dialog-close>Close</button>
+    </md-dialog-actions>
+</form>

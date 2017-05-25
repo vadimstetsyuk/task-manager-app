@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MdDialogRef, MD_DIALOG_DATA, MdDialog } from '@angular/material';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { Task } from '../../models/Task';
+import { EditTaskDialog } from '../edit-task-dialog/edit-task-dialog';
 
 @Component({
   templateUrl: './day-dialog.html',
@@ -13,6 +14,7 @@ export class DayDialog implements OnInit {
 
   constructor(public dialogRef: MdDialogRef<DayDialog>,
     @Inject(MD_DIALOG_DATA) public selectedDate: any,
+    private _editTaskDialog: MdDialog,
     private localStorageService: LocalStorageService) {
     this.actualTasks = [];
   }
@@ -46,6 +48,18 @@ export class DayDialog implements OnInit {
     this.localStorageService.set('tasks', this.tasks);
   }
 
+  openEditDialog(task) {
+    let dialogRef = this._editTaskDialog.open(EditTaskDialog, {
+      height: '370px',
+      width: '550px',
+      data: task
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.tasks = <Task[]>this.localStorageService.get('tasks');
+    });
+  }
+
   sortingByPriority() {
     this.actualTasks.sort((a, b) => { return (a.priority > b.priority) ? 1 : ((b.priority > a.priority) ? -1 : 0); });
   }
@@ -72,7 +86,7 @@ export class DayDialog implements OnInit {
     if (otherDay < today) { // 24*60*60*1000 BEFORE
       result = "red";
     } else { // Today and after
-        result = "green";
+      result = "green";
     }
 
     return result;

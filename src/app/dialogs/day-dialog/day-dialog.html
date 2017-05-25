@@ -21,7 +21,7 @@
                 {{ task.start.hours }}:{{ task.start.minutes }}
             </md-chip>
             <p class="spacer">{{ task.duration }}s.</p>
-            <button md-raised-button color="primary">Edit</button>
+            <button md-raised-button color="primary" (click)="openEditDialog(task)">Edit</button>
             <button md-mini-fab color="warn" (click)="deleteTask(task)"><md-icon>delete</md-icon></button>
         </md-list-item>
     </md-list>
