@@ -29,8 +29,9 @@ export class DayDialog implements OnInit {
     this.actualTasks = [];
 
     for (let i = 0; i < this.tasks.length; i++) {
-      if (this.tasks[i].start === this.selectedDate)
-        this.actualTasks.push(this.tasks[i]);
+      let taskDate = this.tasks[i].start.month + '.' + this.tasks[i].start.date + '.' + this.tasks[i].start.year;
+        if(taskDate === this.selectedDate)
+      this.actualTasks.push(this.tasks[i]);
     }
   }
 

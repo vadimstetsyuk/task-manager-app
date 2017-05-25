@@ -10,7 +10,7 @@
         <tr>
             <td>
                 <md-input-container #date>
-                    <input mdInput [mdDatepicker]="picker" placeholder="Choose a date" required>
+                    <input mdInput [mdDatepicker]="picker" placeholder="Choose a date" disabled required>
                     <button mdSuffix [mdDatepickerToggle]="picker"></button>
                 </md-input-container>
                 <md-datepicker #picker></md-datepicker>
@@ -19,12 +19,6 @@
                 <md-input-container #time>
                     <input mdInput  type="time" placeholder="Time" required>
                 </md-input-container>
-            </td>
-            <td>
-                <md-select #type placeholder="Type" required>
-                    <md-option [value]="am">A.M.</md-option>
-                    <md-option [value]="pm">P.M.</md-option>
-                </md-select>
             </td>
             <td>
                 <md-input-container>
@@ -47,7 +41,7 @@
 
     <md-dialog-actions class="result">
         <button md-raised-button md-dialog-close color="primary" 
-        (click)="submit(date._mdInputChild.value, time._mdInputChild.value, type.selected.viewValue)">Create task</button>
+        (click)="submit(date._mdInputChild.value, time._mdInputChild.value)">Create task</button>
         <button md-raised-button md-dialog-close>Close</button>
     </md-dialog-actions>
 </form>

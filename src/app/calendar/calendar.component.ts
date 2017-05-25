@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { Calendar } from '../models/Calendar';
 import { Task } from '../models/Task';
+import { CustomDate } from '../models/CustomDate';
 import { DayDialog } from '../dialogs/day-dialog/day-dialog';
 import { TaskDialog } from '../dialogs/task-dialog/task-dialog';
 import { UploadTasksDialog } from '../dialogs/upload-tasks-dialog/upload-tasks-dialog';
@@ -78,8 +79,8 @@ export class CalendarComponent implements OnInit {
       let countTaskForDay = 0;
       for (let j = 0; j < this.tasks.length; j++) {
         let currDate = (this.calendar.currDate.getMonth() + 1) + '.' + this.calendar.days[i].title + "." + this.calendar.currDate.getFullYear();
-
-        if (this.tasks[j].start == currDate)
+        let taskDate = this.tasks[j].start.month + '.' + this.tasks[j].start.date + '.' + this.tasks[j].start.year;
+        if (taskDate == currDate)
           countTaskForDay++;
       }
 
