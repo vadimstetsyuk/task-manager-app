@@ -1,6 +1,5 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { Task } from '../models/Task';
-import { LocalStorageService } from 'angular-2-local-storage';
 
 @Component({
     selector: 'tasks-list',
@@ -8,18 +7,10 @@ import { LocalStorageService } from 'angular-2-local-storage';
     styleUrls: ['./tasks-list.component.css']
 })
 
-export class TasksListComponent implements OnInit, OnChanges {
-    tasks: Task[];
+export class TasksListComponent {
+    @Input() tasks: Task[];
 
-    constructor(private localStorageService: LocalStorageService) {
+    constructor() {
         this.tasks = [];
-    }
-
-    ngOnInit() {
-        this.tasks = <Task[]>this.localStorageService.get('tasks');
-    }
-
-    ngOnChanges() {
-        this.tasks = <Task[]>this.localStorageService.get('tasks');
     }
 }

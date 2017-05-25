@@ -160,7 +160,7 @@ export class CalendarComponent implements OnInit {
 
   openTaskDialog() {
     let dialogRef = this._taskDialog.open(TaskDialog, {
-      height: '400px',
+      height: '370px',
       width: '550px'
     });
 
