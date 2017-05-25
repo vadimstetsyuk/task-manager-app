@@ -6,7 +6,8 @@ import { CustomDate } from '../models/CustomDate';
 import { DayDialog } from '../dialogs/day-dialog/day-dialog';
 import { AddTaskDialog } from '../dialogs/add-task-dialog/add-task-dialog';
 import { UploadTasksDialog } from '../dialogs/upload-tasks-dialog/upload-tasks-dialog';
-import { LocalStorageService } from 'angular-2-local-storage';
+
+import { TaskService } from '../services/task.service';
 
 @Component({
   selector: 'calendar',
@@ -18,7 +19,7 @@ export class CalendarComponent implements OnInit {
   tasks: Task[];
   selectedDate: any;
 
-  constructor(private _dialog: MdDialog, private localStorageService: LocalStorageService,
+  constructor(private _dialog: MdDialog, private _taskService: TaskService,
     private _taskDialog: MdDialog, private _uploadTasksDialog: MdDialog) {
     this.calendar = new Calendar();
     this.tasks = [];
@@ -40,7 +41,7 @@ export class CalendarComponent implements OnInit {
 
   createCalendarFromDate(date: Date) {
     this.calendar.days = [];
-    this.tasks = <Task[]>this.localStorageService.get('tasks');
+    this.tasks = this._taskService.getTasksFromLocalStorage();
 
     // console.log(this.calendar.currDate.getFullYear() + " " + (this.calendar.currDate.getMonth() + 1) + " " + this.calendar.currDate.getDate());
 

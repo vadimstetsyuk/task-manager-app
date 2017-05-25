@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
-import { LocalStorageService } from 'angular-2-local-storage';
 import { Task } from '../../models/Task';
+import { TaskService } from '../../services/task.service';
 import { CustomDate } from '../../models/CustomDate';
 
 @Component({
@@ -14,14 +14,16 @@ export class EditTaskDialog implements OnInit {
     indexOfTask: number;
 
     constructor(public dialogRef: MdDialogRef<EditTaskDialog>,
-        @Inject(MD_DIALOG_DATA) public selectedTask: Task,
-        private localStorageService: LocalStorageService) {
-        this.task = selectedTask;
+        @Inject(MD_DIALOG_DATA) public selectedTask: any,
+        private _taskService: TaskService) {
+        this.task = selectedTask[0];
+        this.indexOfTask = selectedTask[1];
+        console.log(this.indexOfTask);
+        
     }
 
     ngOnInit() {
-        this.tasks = <Task[]>this.localStorageService.get('tasks');
-        this.indexOfTask = this.tasks.indexOf(this.task);
+        this.tasks = this._taskService.getTasksFromLocalStorage();
     }
 
     submit(date: string, time: string) {
@@ -38,7 +40,9 @@ export class EditTaskDialog implements OnInit {
         this.task.start = new CustomDate(d, month, year, hours, minutes);
 
         this.tasks[this.indexOfTask] = this.task;
-        console.log(this.task);
-        this.localStorageService.set('tasks', this.tasks);
+        console.log(this.tasks);
+        this._taskService.setTasksToLocalStorage(this.tasks);
+
+            
     }
 }

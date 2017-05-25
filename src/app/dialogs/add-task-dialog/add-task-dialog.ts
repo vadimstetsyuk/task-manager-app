@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
-import { LocalStorageService } from 'angular-2-local-storage';
 import { Task } from '../../models/Task';
 import { CustomDate } from '../../models/CustomDate';
+import { TaskService } from '../../services/task.service';
 
 @Component({
     templateUrl: './add-task-dialog.html',
@@ -12,13 +12,12 @@ export class AddTaskDialog {
     task: Task;
 
     constructor(public dialogRef: MdDialogRef<AddTaskDialog>,
-
-        private localStorageService: LocalStorageService) {
+        private _taskService: TaskService) {
         this.task = new Task('', <CustomDate>{}, '', '', '');
     }
 
     submit(date: string, time: string) {
-        let tasks = <Task[]>this.localStorageService.get('tasks');
+        let tasks = this._taskService.getTasksFromLocalStorage();
 
         // split date
         let splitedDate: string[] = date.split('.');
@@ -34,6 +33,6 @@ export class AddTaskDialog {
 
         console.log(this.task);
         tasks.push(this.task);
-        this.localStorageService.set('tasks', tasks);
+        this._taskService.setTasksToLocalStorage(tasks);
     }
 }

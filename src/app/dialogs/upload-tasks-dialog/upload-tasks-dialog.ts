@@ -2,7 +2,6 @@ import { Component, Inject } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA, MdInputContainer } from '@angular/material';
 import { Task } from '../../models/Task';
 import { TaskService } from '../../services/task.service';
-import { LocalStorageService } from 'angular-2-local-storage';
 
 import { MdSnackBar } from '@angular/material';
 
@@ -15,7 +14,6 @@ export class UploadTasksDialog {
 
     constructor(public dialogRef: MdDialogRef<UploadTasksDialog>,
         private taskService: TaskService,
-        private localStorageService: LocalStorageService,
         public snackBar: MdSnackBar) {
     }
 
@@ -26,7 +24,7 @@ export class UploadTasksDialog {
         this.getTasks(URL);
 
         setTimeout(() => {
-            this.localStorageService.set('tasks', this.tasks);
+            this.taskService.setTasksToLocalStorage(this.tasks);
         }, 500);
 
         this.snackBar.open('The tasks successfully uploaded', 'Ok', {

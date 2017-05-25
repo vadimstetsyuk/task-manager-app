@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA, MdDialog } from '@angular/material';
-import { LocalStorageService } from 'angular-2-local-storage';
 import { Task } from '../../models/Task';
+import { TaskService } from '../../services/task.service';
 import { EditTaskDialog } from '../edit-task-dialog/edit-task-dialog';
 
 @Component({
@@ -15,12 +15,12 @@ export class DayDialog implements OnInit {
   constructor(public dialogRef: MdDialogRef<DayDialog>,
     @Inject(MD_DIALOG_DATA) public selectedDate: any,
     private _editTaskDialog: MdDialog,
-    private localStorageService: LocalStorageService) {
+    private _taskService: TaskService) {
     this.actualTasks = [];
   }
 
   ngOnInit() {
-    this.tasks = <Task[]>this.localStorageService.get('tasks');
+    this.tasks = this._taskService.getTasksFromLocalStorage();
     if (this.tasks) {
       this.getActualTasks();
     }
@@ -45,18 +45,19 @@ export class DayDialog implements OnInit {
 
     this.getActualTasks();
 
-    this.localStorageService.set('tasks', this.tasks);
+    this._taskService.setTasksToLocalStorage(this.tasks);
   }
 
   openEditDialog(task) {
     let dialogRef = this._editTaskDialog.open(EditTaskDialog, {
       height: '370px',
       width: '550px',
-      data: task
+      data: [task, this.tasks.indexOf(task)]
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.tasks = <Task[]>this.localStorageService.get('tasks');
+        this.tasks = this._taskService.getTasksFromLocalStorage();
+        this.getActualTasks();
     });
   }
 
