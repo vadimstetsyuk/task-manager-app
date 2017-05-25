@@ -10,6 +10,10 @@
     margin: 5px;
 }
 
+md-chip {
+    margin: 40px;
+}
+
 .tasks {
     height: 70%;
     overflow-y: scroll;

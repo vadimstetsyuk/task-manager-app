@@ -21,7 +21,6 @@ export class DayDialog implements OnInit {
     this.tasks = <Task[]>this.localStorageService.get('tasks');
     if (this.tasks) {
       this.getActualTasks();
-      this.sortingByPriority();
     }
   }
 
@@ -30,9 +29,10 @@ export class DayDialog implements OnInit {
 
     for (let i = 0; i < this.tasks.length; i++) {
       let taskDate = this.tasks[i].start.month + '.' + this.tasks[i].start.date + '.' + this.tasks[i].start.year;
-        if(taskDate === this.selectedDate)
-      this.actualTasks.push(this.tasks[i]);
+      if (taskDate === this.selectedDate)
+        this.actualTasks.push(this.tasks[i]);
     }
+    this.sortingByPriority();
   }
 
   deleteTask(task: Task) {
@@ -52,5 +52,29 @@ export class DayDialog implements OnInit {
 
   sortingByTime() {
     this.actualTasks.sort((a, b) => { return (a.start > b.start) ? 1 : ((b.start > a.start) ? -1 : 0); });
+  }
+
+  defineColorTime(task: Task): string {
+    let result = "red";
+
+    // task date
+    let date = Number(task.start.date);
+    let month = Number(task.start.month);
+    let year = Number(task.start.year);
+    let hours = Number(task.start.hours) * 60;
+    let minutes = Number(task.start.minutes);
+    let duration = task.duration;
+
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).valueOf();
+    var otherDay = new Date(year, month - 1, date).valueOf();
+
+    if (otherDay < today) { // 24*60*60*1000 BEFORE
+      result = "red";
+    } else { // Today and after
+        result = "green";
+    }
+
+    return result;
   }
 }

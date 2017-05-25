@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { DayDialog } from './dialogs/day-dialog/day-dialog';
-import { TaskDialog } from './dialogs/task-dialog/task-dialog';
+import { TaskDialog } from './dialogs/add-task-dialog/task-dialog';
 import { UploadTasksDialog } from './dialogs/upload-tasks-dialog/upload-tasks-dialog';
 import { TasksListComponent } from './tasks-list/tasks-list.component';
 

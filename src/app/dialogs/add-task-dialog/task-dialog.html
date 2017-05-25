@@ -17,12 +17,12 @@
             </td>
             <td>
                 <md-input-container #time>
-                    <input mdInput  type="time" placeholder="Time" required>
+                    <input mdInput  type="time" placeholder="Time (h:m)" required>
                 </md-input-container>
             </td>
             <td>
                 <md-input-container>
-                    <input #duration mdInput type="time" placeholder="Duration" required>
+                    <input #duration mdInput type="number" placeholder="Duration (m)" min="0" required>
                 </md-input-container>
             </td>
         </tr>

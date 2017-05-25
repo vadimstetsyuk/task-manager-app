@@ -14,9 +14,12 @@
 <div class="tasks">
     <md-list>
         <md-list-item class="task" *ngFor="let task of actualTasks">
-            <md-icon md-list-icon>folder</md-icon>
+            <md-icon md-list-icon>assignment</md-icon>
             <h4 md-line>{{task.title}}</h4>
             <p md-line> {{task.start.month}}.{{task.start.date}}.{{task.start.year}} </p>
+            <md-chip [style.background]="defineColorTime(task)" selected="true">
+                {{ task.start.hours }}:{{ task.start.minutes }}
+            </md-chip>
             <p class="spacer">{{ task.duration }}s.</p>
             <button md-raised-button color="primary">Edit</button>
             <button md-mini-fab color="warn" (click)="deleteTask(task)"><md-icon>delete</md-icon></button>

@@ -27,8 +27,8 @@ export class TaskDialog {
         let year = parseInt(splitedDate[2]);
 
         let splitedTime: string[] = time.split(':');
-        let hours = splitedDate[0];
-        let minutes = splitedDate[1];
+        let hours = splitedTime[0];
+        let minutes = splitedTime[1];
 
         this.task.start = new CustomDate(d, month, year, hours, minutes);
 

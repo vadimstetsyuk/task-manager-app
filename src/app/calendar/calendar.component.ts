@@ -4,7 +4,7 @@ import { Calendar } from '../models/Calendar';
 import { Task } from '../models/Task';
 import { CustomDate } from '../models/CustomDate';
 import { DayDialog } from '../dialogs/day-dialog/day-dialog';
-import { TaskDialog } from '../dialogs/task-dialog/task-dialog';
+import { TaskDialog } from '../dialogs/add-task-dialog/task-dialog';
 import { UploadTasksDialog } from '../dialogs/upload-tasks-dialog/upload-tasks-dialog';
 import { LocalStorageService } from 'angular-2-local-storage';
 
@@ -36,13 +36,13 @@ export class CalendarComponent implements OnInit {
     { title: 'Sunday', color: 'lightgrey' }];
 
     this.createCalendarFromDate(this.calendar.currDate);
-    this.getTasks();
   }
 
   createCalendarFromDate(date: Date) {
     this.calendar.days = [];
     this.tasks = <Task[]>this.localStorageService.get('tasks');
-    console.log(this.calendar.currDate.getFullYear() + " " + (this.calendar.currDate.getMonth() + 1) + " " + this.calendar.currDate.getDate());
+
+    // console.log(this.calendar.currDate.getFullYear() + " " + (this.calendar.currDate.getMonth() + 1) + " " + this.calendar.currDate.getDate());
 
     var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -69,6 +69,7 @@ export class CalendarComponent implements OnInit {
         }
       }
     }
+
     if (this.tasks)
       this.defineColorOfTheDays();
   }
@@ -103,14 +104,6 @@ export class CalendarComponent implements OnInit {
         this.calendar.days[i].color = 'red';
         continue;
       }
-    }
-  }
-
-  getTasks() {
-    this.tasks = <Task[]>this.localStorageService.get('tasks');
-    for (let j = 0; j < this.tasks.length; j++) {
-      console.log(this.tasks[j]);
-
     }
   }
 
@@ -156,6 +149,7 @@ export class CalendarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.selectedDate = '-'; // another value which doesn't exist in the calendar
       this.createCalendarFromDate(this.calendar.currDate);
+      this.defineColorOfTheDays();
     });
   }
 
@@ -167,9 +161,8 @@ export class CalendarComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.selectedDate = '-'; // another value which doesn't exist in the calendar
-      setTimeout(() => {
-        this.createCalendarFromDate(this.calendar.currDate);
-      }, 1000);
+      this.createCalendarFromDate(this.calendar.currDate);
+      this.defineColorOfTheDays();
     });
   }
 

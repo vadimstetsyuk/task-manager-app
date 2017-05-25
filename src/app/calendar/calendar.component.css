@@ -4,7 +4,6 @@
 
 .day:hover {
     cursor: pointer;
-    background-color: lightskyblue;  
 }
 
 .selected {
