@@ -5,8 +5,8 @@ import { Task } from '../../models/Task';
 import { CustomDate } from '../../models/CustomDate';
 
 @Component({
-    templateUrl: './task-dialog.html',
-    styleUrls: ['./task-dialog.css']
+    templateUrl: './add-task-dialog.html',
+    styleUrls: ['./add-task-dialog.css']
 })
 export class TaskDialog {
     task: Task;
