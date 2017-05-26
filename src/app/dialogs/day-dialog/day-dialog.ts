@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA, MdDialog } from '@angular/material';
 import { Task } from '../../models/Task';
 import { TaskService } from '../../services/task.service';
+import { AddTaskDialog } from '../add-task-dialog/add-task-dialog';
 import { EditTaskDialog } from '../edit-task-dialog/edit-task-dialog';
 
 @Component({
@@ -14,6 +15,7 @@ export class DayDialog implements OnInit {
 
   constructor(public dialogRef: MdDialogRef<DayDialog>,
     @Inject(MD_DIALOG_DATA) public selectedDate: any,
+    private _addTaskDialog: MdDialog,
     private _editTaskDialog: MdDialog,
     private _taskService: TaskService) {
     this.actualTasks = [];
@@ -34,7 +36,7 @@ export class DayDialog implements OnInit {
       if (taskDate === this.selectedDate)
         this.actualTasks.push(this.tasks[i]);
     }
-    this.sortingByPriority();
+    this.sortingByTime();
   }
 
   deleteTask(task: Task) {
@@ -48,16 +50,28 @@ export class DayDialog implements OnInit {
     this._taskService.setTasksToLocalStorage(this.tasks);
   }
 
+  openAddDialog() {
+    let dialogRef = this._addTaskDialog.open(AddTaskDialog, {
+      height: '440px',
+      width: '550px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.tasks = this._taskService.getTasksFromLocalStorage();
+      this.getActualTasks();
+    });
+  }
+
   openEditDialog(task) {
     let dialogRef = this._editTaskDialog.open(EditTaskDialog, {
-      height: '370px',
+      height: '440px',
       width: '550px',
       data: [task, this.tasks.indexOf(task)]
     });
 
     dialogRef.afterClosed().subscribe(result => {
-        this.tasks = this._taskService.getTasksFromLocalStorage();
-        this.getActualTasks();
+      this.tasks = this._taskService.getTasksFromLocalStorage();
+      this.getActualTasks();
     });
   }
 
@@ -66,7 +80,11 @@ export class DayDialog implements OnInit {
   }
 
   sortingByTime() {
-    this.actualTasks.sort((a, b) => { return (a.start > b.start) ? 1 : ((b.start > a.start) ? -1 : 0); });
+    this.actualTasks.sort((a, b) => {
+      return (Number(a.start.hours) * 60 + Number(a.start.minutes) > Number(b.start.hours) * 60 + Number(b.start.minutes))
+        ? 1 :
+        ((Number(b.start.hours) * 60 + Number(b.start.minutes) > Number(a.start.hours) * 60 + Number(a.start.minutes)) ? -1 : 0);
+    });
   }
 
   defineColorTime(task: Task): string {

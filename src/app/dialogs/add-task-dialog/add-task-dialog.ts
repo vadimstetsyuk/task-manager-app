@@ -13,7 +13,7 @@ export class AddTaskDialog {
 
     constructor(public dialogRef: MdDialogRef<AddTaskDialog>,
         private _taskService: TaskService) {
-        this.task = new Task('', <CustomDate>{}, '', '', '');
+        this.task = new Task('', <CustomDate>{}, '', 2, '');
     }
 
     submit(date: string, time: string) {

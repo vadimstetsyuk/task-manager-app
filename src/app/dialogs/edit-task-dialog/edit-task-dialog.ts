@@ -12,18 +12,19 @@ export class EditTaskDialog implements OnInit {
     task: Task;
     tasks: Task[];
     indexOfTask: number;
+    currentDate: Date;
 
     constructor(public dialogRef: MdDialogRef<EditTaskDialog>,
         @Inject(MD_DIALOG_DATA) public selectedTask: any,
         private _taskService: TaskService) {
         this.task = selectedTask[0];
         this.indexOfTask = selectedTask[1];
-        console.log(this.indexOfTask);
-        
+        this.currentDate = <Date>{};
     }
 
     ngOnInit() {
         this.tasks = this._taskService.getTasksFromLocalStorage();
+        this.currentDate = new Date(Number(this.task.start.year), Number(this.task.start.month) - 1, Number(this.task.start.date), Number(this.task.start.hours), Number(this.task.start.minutes))
     }
 
     submit(date: string, time: string) {
@@ -43,6 +44,6 @@ export class EditTaskDialog implements OnInit {
         console.log(this.tasks);
         this._taskService.setTasksToLocalStorage(this.tasks);
 
-            
+
     }
 }

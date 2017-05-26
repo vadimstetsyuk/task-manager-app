@@ -143,7 +143,7 @@ export class CalendarComponent implements OnInit {
 
     let dialogRef = this._dialog.open(DayDialog, {
       height: '500px',
-      width: '800px',
+      width: '600px',
       data: (this.calendar.currDate.getMonth() + 1) + '.' + this.selectedDate + '.' + this.calendar.currDate.getFullYear()
     });
 
@@ -156,7 +156,7 @@ export class CalendarComponent implements OnInit {
 
   openAddTaskDialog() {
     let dialogRef = this._taskDialog.open(AddTaskDialog, {
-      height: '370px',
+      height: '440px',
       width: '550px'
     });
 

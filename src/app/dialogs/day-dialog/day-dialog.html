@@ -1,6 +1,6 @@
 <h1 md-dialog-title class="title">The list of tasks on the date: {{ selectedDate }}</h1>
 
-<div class="sorting">
+<div class="full-width">
     <md-select placeholder="Sorting by" [(ngModel)]="myState" floatPlaceholder="never">
         <md-option [value]="byPriority" (click)="sortingByPriority()">
             By priority
@@ -17,10 +17,11 @@
             <md-icon md-list-icon>assignment</md-icon>
             <h4 md-line>{{task.title}}</h4>
             <p md-line> {{task.start.month}}.{{task.start.date}}.{{task.start.year}} </p>
-            <md-chip [style.background]="defineColorTime(task)" selected="true">
+            <p md-line>{{ task.duration }} m.</p>
+            <md-chip class="row-item" color="grey" selected="true">Priority:{{ task.priority }}</md-chip>
+            <md-chip class="row-item" [style.background]="defineColorTime(task)" selected="true">
                 {{ task.start.hours }}:{{ task.start.minutes }}
             </md-chip>
-            <p class="spacer">{{ task.duration }}s.</p>
             <button md-raised-button color="primary" (click)="openEditDialog(task)">Edit</button>
             <button md-mini-fab color="warn" (click)="deleteTask(task)"><md-icon>delete</md-icon></button>
         </md-list-item>
@@ -30,7 +31,7 @@
     </div>
 </div>
 
-<md-dialog-actions>
-    <button md-raised-button color="primary">Add new task</button>
+<md-dialog-actions class="resultBtn">
+    <button md-raised-button color="primary" (click)="openAddDialog()">Add new task</button>
     <button md-raised-button md-dialog-close>Close</button>
 </md-dialog-actions>

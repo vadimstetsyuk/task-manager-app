@@ -6,7 +6,15 @@
     width: 100%;
 }
 
-.result {
+.form-group {
+    margin-top: 15px;
+}
+
+.alert {
+    color:red;
+}
+
+.resultBtn {
     width: 100%;
     display: inline-flex;
     justify-content: space-between;
