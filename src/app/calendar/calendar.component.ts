@@ -143,7 +143,7 @@ export class CalendarComponent implements OnInit {
 
     let dialogRef = this._dialog.open(DayDialog, {
       height: '500px',
-      width: '600px',
+      width: '800px',
       data: (this.calendar.currDate.getMonth() + 1) + '.' + this.selectedDate + '.' + this.calendar.currDate.getFullYear()
     });
 
