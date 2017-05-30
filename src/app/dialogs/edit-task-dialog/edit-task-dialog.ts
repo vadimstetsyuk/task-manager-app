@@ -41,7 +41,6 @@ export class EditTaskDialog implements OnInit {
         this.task.start = new CustomDate(d, month, year, hours, minutes);
 
         this.tasks[this.indexOfTask] = this.task;
-        console.log(this.tasks);
         this._taskService.setTasksToLocalStorage(this.tasks);
 
 

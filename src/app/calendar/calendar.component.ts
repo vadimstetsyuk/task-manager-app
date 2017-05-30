@@ -22,7 +22,7 @@ export class CalendarComponent implements OnInit {
   constructor(private _dialog: MdDialog, private _taskService: TaskService,
     private _taskDialog: MdDialog, private _uploadTasksDialog: MdDialog) {
     this.calendar = new Calendar();
-    this.tasks = [];
+    this.tasks = <Task[]>[];
   }
 
   ngOnInit() {

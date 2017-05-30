@@ -18,7 +18,6 @@ export class UploadTasksDialog {
     }
 
     uploadTasks(url: MdInputContainer) {
-        console.log(url._mdInputChild.value);
         let URL = url._mdInputChild.value;
 
         this.getTasks(URL);
@@ -37,7 +36,7 @@ export class UploadTasksDialog {
             .subscribe(
             tasks => this.tasks = tasks,
             err => {
-                console.log(err);
+                // console.log(err);
             });
     }
 }

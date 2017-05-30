@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 import { Task } from '../../models/Task';
 import { CustomDate } from '../../models/CustomDate';
@@ -8,17 +8,21 @@ import { TaskService } from '../../services/task.service';
     templateUrl: './add-task-dialog.html',
     styleUrls: ['./add-task-dialog.css']
 })
-export class AddTaskDialog {
+export class AddTaskDialog implements OnInit {
     task: Task;
+    tasks: Task[];
 
     constructor(public dialogRef: MdDialogRef<AddTaskDialog>,
         private _taskService: TaskService) {
         this.task = new Task('', <CustomDate>{}, '', 2, '');
+        this.tasks = <Task[]>{};
+    }
+
+    ngOnInit() {
+        this.tasks = this._taskService.getTasksFromLocalStorage();
     }
 
     submit(date: string, time: string) {
-        let tasks = this._taskService.getTasksFromLocalStorage();
-
         // split date
         let splitedDate: string[] = date.split('.');
         let d = parseInt(splitedDate[0]);
@@ -31,8 +35,11 @@ export class AddTaskDialog {
 
         this.task.start = new CustomDate(d, month, year, hours, minutes);
 
-        console.log(this.task);
-        tasks.push(this.task);
-        this._taskService.setTasksToLocalStorage(tasks);
+        if (!this.tasks) {
+            this._taskService.setTasksToLocalStorage(<Task[]>[this.task]);
+        } else {
+            this.tasks.push(this.task);
+            this._taskService.setTasksToLocalStorage(this.tasks);
+        }
     }
 }
