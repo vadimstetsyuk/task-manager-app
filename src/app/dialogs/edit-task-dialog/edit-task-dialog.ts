@@ -24,7 +24,7 @@ export class EditTaskDialog implements OnInit {
 
     ngOnInit() {
         this.tasks = this._taskService.getTasksFromLocalStorage();
-        this.currentDate = new Date(Number(this.task.start.year), Number(this.task.start.month) - 1, Number(this.task.start.date), Number(this.task.start.hours), Number(this.task.start.minutes))
+        this.currentDate = new Date(this.task.start.year, this.task.start.month - 1, this.task.start.date, this.task.start.hours, this.task.start.minutes)
     }
 
     submit(date: string, time: string) {
@@ -35,8 +35,8 @@ export class EditTaskDialog implements OnInit {
         let year = parseInt(splitedDate[2]);
 
         let splitedTime: string[] = time.split(':');
-        let hours = splitedTime[0];
-        let minutes = splitedTime[1];
+        let hours = parseInt(splitedTime[0]);
+        let minutes = parseInt(splitedTime[1]);
 
         this.task.start = new CustomDate(d, month, year, hours, minutes);
 

@@ -1,12 +1,11 @@
 export class CustomDate {
-    date: string;
-    month: string;
-    year: string;
+    date: number;
+    month: number;
+    year: number;
+    hours: number;
+    minutes: number;
 
-    hours: string;
-    minutes: string;
-
-    constructor(date, month, year, hours, minutes) {
+    public constructor(date: number, month: number, year: number, hours: number, minutes: number) {
         this.date = date;
         this.month = month;
         this.year = year;

@@ -30,8 +30,8 @@ export class AddTaskDialog implements OnInit {
         let year = parseInt(splitedDate[2]);
 
         let splitedTime: string[] = time.split(':');
-        let hours = splitedTime[0];
-        let minutes = splitedTime[1];
+        let hours = parseInt(splitedTime[0]);
+        let minutes = parseInt(splitedTime[1]);
 
         this.task.start = new CustomDate(d, month, year, hours, minutes);
 

@@ -81,9 +81,9 @@ export class DayDialog implements OnInit {
 
   sortingByTime() {
     this.actualTasks.sort((a, b) => {
-      return (Number(a.start.hours) * 60 + Number(a.start.minutes) > Number(b.start.hours) * 60 + Number(b.start.minutes))
+      return (a.start.hours * 60 + a.start.minutes > b.start.hours * 60 + b.start.minutes)
         ? 1 :
-        ((Number(b.start.hours) * 60 + Number(b.start.minutes) > Number(a.start.hours) * 60 + Number(a.start.minutes)) ? -1 : 0);
+        ((b.start.hours * 60 + b.start.minutes > a.start.hours * 60 + a.start.minutes) ? -1 : 0);
     });
   }
 
@@ -91,11 +91,11 @@ export class DayDialog implements OnInit {
     let result = "red";
 
     // task date
-    let date = Number(task.start.date);
-    let month = Number(task.start.month);
-    let year = Number(task.start.year);
-    let hours = Number(task.start.hours) * 60;
-    let minutes = Number(task.start.minutes);
+    let date = task.start.date;
+    let month = task.start.month;
+    let year = task.start.year;
+    let hours = task.start.hours * 60;
+    let minutes = task.start.minutes;
     let duration = task.duration;
 
     var now = new Date();
