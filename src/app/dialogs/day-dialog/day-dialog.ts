@@ -36,7 +36,7 @@ export class DayDialog implements OnInit {
       if (taskDate === this.selectedDate)
         this.actualTasks.push(this.tasks[i]);
     }
-    this.sortingByTime();
+    this.sortingByPriority();
   }
 
   deleteTask(task: Task) {
