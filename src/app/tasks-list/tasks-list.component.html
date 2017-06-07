@@ -26,6 +26,13 @@
         <md-icon md-list-icon>assignment</md-icon>
         <h4 md-line>{{task.title}}</h4>
         <p md-line> {{task.start.month}}.{{task.start.date}}.{{task.start.year}} </p>
+        <p md-line>{{ task.duration }} m.</p>
+        <md-chip class="row-item" color="grey" selected="true">Priority:{{ task.priority }}</md-chip>
+        <md-chip class="row-item" [style.background]="defineColorTime(task)" selected="true">
+          {{ task.start.hours }}:{{ task.start.minutes }}
+        </md-chip>
+        <button md-raised-button (click)="openEditTaskDialog(task)">Edit</button>
+        <button md-mini-fab color="warn" (click)="deleteTask(task)"><md-icon>delete</md-icon></button>
       </md-list-item>
     </md-list>
   </div>
@@ -40,7 +47,10 @@
               <md-icon md-list-icon>assignment</md-icon>
             </div>
             <md-card-title>{{task.title}}</md-card-title>
-            <md-card-subtitle>{{task.start.month}}.{{task.start.date}}.{{task.start.year}}</md-card-subtitle>
+            <md-card-subtitle>
+                              {{task.start.month}}.{{task.start.date}}.{{task.start.year}} |
+                              {{ task.start.hours }}:{{ task.start.minutes }}
+            </md-card-subtitle>
           </md-card-header>
           <md-card-content>
             <p>
@@ -48,8 +58,8 @@
             </p>
           </md-card-content>
           <md-card-actions>
-            <button md-raised-button>Open</button>
-            <button md-raised-button color="warn">Delete</button>
+            <button md-raised-button (click)="openEditTaskDialog(task)">Edit</button>
+            <button md-raised-button color="warn" (click)="deleteTask(task)">Delete</button>
           </md-card-actions>
         </md-card>
       </md-grid-tile>

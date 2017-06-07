@@ -136,8 +136,14 @@ export class CalendarComponent implements OnInit {
     this.defineColorOfTheDays();
   }
 
-  openDayDialog(day: any) {
-    if (day === '') return; // if day not selectedDate
+  openDayDialog(day: any, index: number) {    
+    /*
+      * If day not exist we must define inc or dec month
+    */
+    if (day === '') { 
+      (index > 15) ? this.incrementMonth() : this.decrementMonth(); 
+      return; 
+    }
 
     this.selectedDate = day;
 

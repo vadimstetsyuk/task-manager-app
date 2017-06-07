@@ -20,6 +20,11 @@ button {
   margin: 5px;
 }
 
+.container {
+    height: 530px;
+    overflow-x: hidden;
+}
+
 .spacer {
   flex: 1 1 auto;
 }

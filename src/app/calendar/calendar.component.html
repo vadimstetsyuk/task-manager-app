@@ -23,8 +23,8 @@
         </md-grid-tile>
       </md-grid-list>
 
-      <md-grid-list cols="7" rowHeight="80px">
-        <md-grid-tile class="day" *ngFor="let day of calendar.days" (click)="openDayDialog(day.title)" [ngClass]="{ 'selected': day.title === selectedDate }"
+      <md-grid-list cols="7" rowHeight="73px">
+        <md-grid-tile class="day" *ngFor="let day of calendar.days; let i = index" (click)="openDayDialog(day.title, i)" [ngClass]="{ 'selected': day.title === selectedDate }"
           [style.background]="day.color">
           <div class="day-number">{{ day.title }}</div>
         </md-grid-tile>
