@@ -1,10 +1,58 @@
+<!-- TOOLBAR PANEL -->
+
+<md-toolbar>
+  <div class="search">
+    <md-input-container>
+      <input mdInput #search placeholder="Type a task..." (keyup)="filterTasks(search.value)">
+    </md-input-container>
+  </div>
+
+  <span class="spacer"></span>
+
+  <div class="viewType">
+    <md-icon class="view-icon" *ngIf="viewType" md-list-icon (click)="toogleView()">view_module</md-icon>
+    <md-icon class="view-icon" *ngIf="!viewType" md-list-icon (click)="toogleView()">view_list</md-icon>
+  </div>
+</md-toolbar>
+
+
+<!-- LIST OF TASKS -->
 <div class="container">
-  <md-list>
-    <h3 md-subheader>Tasks</h3>
-    <md-list-item *ngFor="let task of tasks">
-      <md-icon md-list-icon>folder</md-icon>
-      <h4 md-line>{{task.title}}</h4>
-      <p md-line> {{task.start.month}}.{{task.start.date}}.{{task.start.year}} </p>
-    </md-list-item>
-  </md-list>
+
+  <!-- List -->
+  <div *ngIf="viewType">
+    <md-list>
+      <md-list-item *ngFor="let task of filteredTasks">
+        <md-icon md-list-icon>assignment</md-icon>
+        <h4 md-line>{{task.title}}</h4>
+        <p md-line> {{task.start.month}}.{{task.start.date}}.{{task.start.year}} </p>
+      </md-list-item>
+    </md-list>
+  </div>
+
+  <!-- Card -->
+  <div *ngIf="!viewType">
+    <md-grid-list cols="5" rowHeight="200px">
+      <md-grid-tile *ngFor="let task of filteredTasks">
+        <md-card>
+          <md-card-header>
+            <div md-card-avatar>
+              <md-icon md-list-icon>assignment</md-icon>
+            </div>
+            <md-card-title>{{task.title}}</md-card-title>
+            <md-card-subtitle>{{task.start.month}}.{{task.start.date}}.{{task.start.year}}</md-card-subtitle>
+          </md-card-header>
+          <md-card-content>
+            <p>
+              {{task.description}}
+            </p>
+          </md-card-content>
+          <md-card-actions>
+            <button md-raised-button>Open</button>
+            <button md-raised-button color="warn">Delete</button>
+          </md-card-actions>
+        </md-card>
+      </md-grid-tile>
+    </md-grid-list>
+  </div>
 </div>
