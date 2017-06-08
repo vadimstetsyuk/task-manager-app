@@ -1,3 +1,9 @@
+.top-panel {
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+}
+
 .day {
     border: 1px double black;
 }
@@ -10,23 +16,9 @@
     background-color: lightskyblue;
 }
 
-.header {
-    width: 100%;
-    display: inline-flex;
-    justify-content: space-between;
-}
-
-button {
-  margin: 5px;
-}
-
 .container {
     height: 530px;
     overflow-x: hidden;
-}
-
-.spacer {
-  flex: 1 1 auto;
 }
 
 .priority-low {

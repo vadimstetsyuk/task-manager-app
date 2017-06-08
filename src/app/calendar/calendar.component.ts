@@ -4,8 +4,6 @@ import { Calendar } from '../models/Calendar';
 import { Task } from '../models/Task';
 import { CustomDate } from '../models/CustomDate';
 import { DayDialog } from '../dialogs/day-dialog/day-dialog';
-import { AddTaskDialog } from '../dialogs/add-task-dialog/add-task-dialog';
-import { UploadTasksDialog } from '../dialogs/upload-tasks-dialog/upload-tasks-dialog';
 
 import { TaskService } from '../services/task.service';
 
@@ -19,8 +17,7 @@ export class CalendarComponent implements OnInit {
   tasks: Task[];
   selectedDate: any;
 
-  constructor(private _dialog: MdDialog, private _taskService: TaskService,
-    private _taskDialog: MdDialog, private _uploadTasksDialog: MdDialog) {
+  constructor(private _dialog: MdDialog, private _taskService: TaskService) {
     this.calendar = new Calendar();
     this.tasks = <Task[]>[];
   }
@@ -42,8 +39,6 @@ export class CalendarComponent implements OnInit {
   createCalendarFromDate(date: Date) {
     this.calendar.days = [];
     this.tasks = this._taskService.getTasksFromLocalStorage();
-
-    // console.log(this.calendar.currDate.getFullYear() + " " + (this.calendar.currDate.getMonth() + 1) + " " + this.calendar.currDate.getDate());
 
     var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -142,7 +137,7 @@ export class CalendarComponent implements OnInit {
     */
     if (day === '') { 
       (index > 15) ? this.incrementMonth() : this.decrementMonth(); 
-      return; 
+      return;
     }
 
     this.selectedDate = day;
@@ -157,33 +152,6 @@ export class CalendarComponent implements OnInit {
       this.selectedDate = '-'; // another value which doesn't exist in the calendar
       this.createCalendarFromDate(this.calendar.currDate);
       this.defineColorOfTheDays();
-    });
-  }
-
-  openAddTaskDialog() {
-    let dialogRef = this._taskDialog.open(AddTaskDialog, {
-      height: '440px',
-      width: '550px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.selectedDate = '-'; // another value which doesn't exist in the calendar
-      this.createCalendarFromDate(this.calendar.currDate);
-      this.defineColorOfTheDays();
-    });
-  }
-
-  openUploadTasksDialog() {
-    let dialogRef = this._uploadTasksDialog.open(UploadTasksDialog, {
-      height: '190px',
-      width: '500px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.selectedDate = '-';
-      setTimeout(() => {
-        this.createCalendarFromDate(this.calendar.currDate);
-      }, 1000);
     });
   }
 }

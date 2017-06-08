@@ -1,16 +1,8 @@
-<md-toolbar color="warn">
-  <span>Calendar</span>
-  <span class="spacer"></span>
-  
-  <button md-raised-button color="primary" (click)="openAddTaskDialog()">Create new task</button>
-  <button md-raised-button color="primary" (click)="openUploadTasksDialog()">Upload tasks</button>
-</md-toolbar>
-
 <md-tab-group>
   <md-tab label="Calendar">
-
     <div class="container">
-      <div class="header">
+
+      <div class="top-panel">
         <button md-icon-button (click)="decrementMonth()"><i class="material-icons">keyboard_arrow_left</i></button>
 
         <h3> {{ (calendar.currDate.getMonth() + 1) + "." + calendar.currDate.getFullYear() }} </h3>

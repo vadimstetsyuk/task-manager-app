@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { DayDialog } from './dialogs/day-dialog/day-dialog';
 import { AddTaskDialog } from './dialogs/add-task-dialog/add-task-dialog';
@@ -21,6 +22,7 @@ import { LocalStorageModule } from 'angular-2-local-storage';
 import { TaskService } from './services/task.service';
 
 const appRoutes: Routes = [
+  { path: '', component: CalendarComponent, data: { title: 'Calendar' } },
   { path: 'add', component: AddTaskComponent, data: { title: 'Add task' } },
   { path: 'edit/:id', component: EditTaskComponent, data: { title: 'Edit task' } },
   { path: 'tasks', component: TasksListComponent, data: { title: 'Tasks' } }
@@ -42,6 +44,7 @@ const appRoutes: Routes = [
     ],
   declarations: [
     AppComponent,
+    HeaderComponent,
     CalendarComponent,
     DayDialog,
     AddTaskDialog,

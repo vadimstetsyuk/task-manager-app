@@ -42,7 +42,5 @@ export class EditTaskDialog implements OnInit {
 
         this.tasks[this.indexOfTask] = this.task;
         this._taskService.setTasksToLocalStorage(this.tasks);
-
-
     }
 }
