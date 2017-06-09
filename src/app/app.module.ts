@@ -6,14 +6,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { CalendarComponent } from './calendar/calendar.component';
+import { TabMenuComponent } from './calendar/tab-menu.component';
+import { CalendarComponent } from './calendar/calendar-grid/calendar.component';
 import { DayDialog } from './dialogs/day-dialog/day-dialog';
-import { AddTaskDialog } from './dialogs/add-task-dialog/add-task-dialog';
-import { EditTaskDialog } from './dialogs/edit-task-dialog/edit-task-dialog';
 import { UploadTasksDialog } from './dialogs/upload-tasks-dialog/upload-tasks-dialog';
-import { TasksListComponent } from './tasks-list/tasks-list.component';
-import { AddTaskComponent } from './pages/add-task/add-task.component';
-import { EditTaskComponent } from './pages/edit-task/edit-task.component';
+import { TasksListComponent } from './calendar/tasks-list/tasks-list.component';
+import { AddTaskComponent } from './forms/add-task/add-task.component';
+import { EditTaskComponent } from './forms/edit-task/edit-task.component';
 
 import { MaterialModule, MdNativeDateModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,9 +21,9 @@ import { LocalStorageModule } from 'angular-2-local-storage';
 import { TaskService } from './services/task.service';
 
 const appRoutes: Routes = [
-  { path: '', component: CalendarComponent, data: { title: 'Calendar' } },
   { path: 'add', component: AddTaskComponent, data: { title: 'Add task' } },
   { path: 'edit/:id', component: EditTaskComponent, data: { title: 'Edit task' } },
+  { path: 'calendar', component: CalendarComponent, data: { title: 'Calendar' } },
   { path: 'tasks', component: TasksListComponent, data: { title: 'Tasks' } }
 ];
 
@@ -47,14 +46,13 @@ const appRoutes: Routes = [
     HeaderComponent,
     CalendarComponent,
     DayDialog,
-    AddTaskDialog,
-    EditTaskDialog,
+    TabMenuComponent,
     UploadTasksDialog,
     TasksListComponent,
     AddTaskComponent,
     EditTaskComponent
   ],
-  entryComponents: [DayDialog, AddTaskDialog, EditTaskDialog, UploadTasksDialog],
+  entryComponents: [DayDialog, UploadTasksDialog],
   providers: [TaskService],
   bootstrap: [AppComponent]
 })

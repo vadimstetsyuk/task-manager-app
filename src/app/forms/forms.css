@@ -1,6 +1,6 @@
 #main{ 
     margin: 0 auto;
-    margin-top: 5%;
+    margin-top: 2%;
     width: 50%;
     height: 50%;
     border: 1px solid grey;
@@ -25,8 +25,4 @@
 
 .alert {
     color:red;
-}
-
-button {
-    width: 100%;
 }

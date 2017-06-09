@@ -1,8 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { MdDialogRef, MdDialog } from '@angular/material';
-import { EditTaskDialog } from '../dialogs/edit-task-dialog/edit-task-dialog';
-import { Task } from '../models/Task';
-import { TaskService } from '../services/task.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Task } from '../../models/Task';
+import { TaskService } from '../../services/task.service';
 
 @Component({
     selector: 'tasks-list',
@@ -16,16 +15,20 @@ export class TasksListComponent implements OnInit {
     viewType: boolean;
 
     constructor(private _taskService: TaskService,
-        private _editTaskDialog: MdDialog) {
+        private _router: Router) {
         this.tasks = [];
         this.viewType = false;
         this.filteredTasks = [];
     }
 
     ngOnInit() {
+        this.tasks = this._taskService.getTasksFromLocalStorage();
         this.filteredTasks = this.tasks;
     }
 
+    /*
+     * Filtering tasks according by input filter
+    */
     filterTasks(filter: string) {
         this.filteredTasks = [];
 
@@ -35,18 +38,22 @@ export class TasksListComponent implements OnInit {
         });
     }
 
+    /*
+     * Redirect to edit task component
+    */
     openEditTaskDialog(task: Task) {
-        let dialogRef = this._editTaskDialog.open(EditTaskDialog, {
-            height: '440px',
-            width: '550px',
-            data: [task, this.tasks.indexOf(task)]
-        });
+        if (this.tasks.includes(task)) {
+            let routeIndex = this.tasks.indexOf(task);
 
-        dialogRef.afterClosed().subscribe(result => {
-            this.tasks = this._taskService.getTasksFromLocalStorage();
-        });
+            let editTaskUrl = ['/edit/' + routeIndex];
+
+            this._router.navigate(editTaskUrl);
+        }
     }
 
+    /*
+     * Delete task from list
+    */
     deleteTask(task: Task) {
         let index = this.tasks.indexOf(task);
         let indexOfFilteredTasks = this.filteredTasks.indexOf(task);
@@ -59,6 +66,10 @@ export class TasksListComponent implements OnInit {
         this._taskService.setTasksToLocalStorage(this.tasks);
     }
 
+    /*
+     * If day is yesterday or latest - color will be red
+     * If day is today or tomorrow - color will be green
+    */
     defineColorTime(task: Task): string {
         let result = "red";
 
@@ -83,6 +94,9 @@ export class TasksListComponent implements OnInit {
         return result;
     }
 
+    /*
+     * Toogle type of dispaly tasks (card or list)
+    */
     toogleView() {
         this.viewType = !this.viewType;
     }

@@ -6,56 +6,47 @@ import { CustomDate } from '../../models/CustomDate';
 
 import { MdSnackBar } from '@angular/material';
 
-
 @Component({
-    selector: 'edit-task',
-    templateUrl: './edit-task.component.html',
-    styleUrls: ['./edit-task.component.css']
+    selector: 'add-task',
+    templateUrl: './add-task.component.html',
+    styleUrls: ['../forms.css']
 })
 
-export class EditTaskComponent {
+export class AddTaskComponent implements OnInit {
     task: Task;
     tasks: Task[];
-    indexOfTask: number;
-    currentDate: Date;
 
-    constructor(private _taskService: TaskService, private _router: Router,
+    constructor(private _taskService: TaskService, private _router: Router, 
                 private _snackBar: MdSnackBar) {
-        this.task = <Task>{};
-        this.currentDate = <Date>{};
+        this.task = new Task('', <CustomDate>{}, '', 2, '');
+        this.tasks = <Task[]>{};
     }
 
     ngOnInit() {
-        /* Get index of selected task from request url */
-        this.indexOfTask = Number(this._router.url.split('/edit/')[1]);
         this.tasks = this._taskService.getTasksFromLocalStorage();
-        this.task = this.tasks[this.indexOfTask];
-
-        /* Building currentDate of task */
-        this.currentDate = new Date(this.task.start.year, this.task.start.month - 1,
-            this.task.start.date, this.task.start.hours, this.task.start.minutes);
-
     }
 
     submit(date: string, time: string) {
-        // splitting date
+        // split date
         let splitedDate: string[] = date.split('.');
         let d = parseInt(splitedDate[0]);
         let month = parseInt(splitedDate[1]);
         let year = parseInt(splitedDate[2]);
 
-        // splitting time
         let splitedTime: string[] = time.split(':');
         let hours = parseInt(splitedTime[0]);
         let minutes = parseInt(splitedTime[1]);
 
         this.task.start = new CustomDate(d, month, year, hours, minutes);
 
-        this.tasks[this.indexOfTask] = this.task;
-        this._taskService.setTasksToLocalStorage(this.tasks);
+        if (!this.tasks) {
+            this._taskService.setTasksToLocalStorage(<Task[]>[this.task]);
+        } else {
+            this.tasks.push(this.task);
+            this._taskService.setTasksToLocalStorage(this.tasks);
+        }
 
-
-        this._snackBar.open('The task \"' + this.task.title + '\" was successfully edited', 'Ok', {
+        this._snackBar.open('The task \"' + this.task.title + '\" was successfully added', 'Ok', {
             duration: 5000,
         });
 

@@ -1,9 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MdDialogRef, MD_DIALOG_DATA, MdDialog } from '@angular/material';
+import { Router } from '@angular/router';
+import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { Task } from '../../models/Task';
 import { TaskService } from '../../services/task.service';
-import { AddTaskDialog } from '../add-task-dialog/add-task-dialog';
-import { EditTaskDialog } from '../edit-task-dialog/edit-task-dialog';
 
 @Component({
   templateUrl: './day-dialog.html',
@@ -15,8 +14,7 @@ export class DayDialog implements OnInit {
 
   constructor(public dialogRef: MdDialogRef<DayDialog>,
     @Inject(MD_DIALOG_DATA) public selectedDate: any,
-    private _addTaskDialog: MdDialog,
-    private _editTaskDialog: MdDialog,
+    private _router: Router,
     private _taskService: TaskService) {
     this.actualTasks = [];
   }
@@ -51,28 +49,15 @@ export class DayDialog implements OnInit {
   }
 
   openAddDialog() {
-    let dialogRef = this._addTaskDialog.open(AddTaskDialog, {
-      height: '440px',
-      width: '550px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.tasks = this._taskService.getTasksFromLocalStorage();
-      this.getActualTasks();
-    });
+    this.dialogRef.close();
+    this._router.navigate(['/add']);
   }
 
   openEditDialog(task) {
-    let dialogRef = this._editTaskDialog.open(EditTaskDialog, {
-      height: '440px',
-      width: '550px',
-      data: [task, this.tasks.indexOf(task)]
-    });
+    this.dialogRef.close();
+    let editTaskUrl = ['/edit/' + this.tasks.indexOf(task)];
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.tasks = this._taskService.getTasksFromLocalStorage();
-      this.getActualTasks();
-    });
+    this._router.navigate(editTaskUrl);
   }
 
   sortingByPriority() {

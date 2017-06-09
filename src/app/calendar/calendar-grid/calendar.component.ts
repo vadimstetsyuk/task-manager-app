@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MdDialog, MdDialogRef } from '@angular/material';
-import { Calendar } from '../models/Calendar';
-import { Task } from '../models/Task';
-import { CustomDate } from '../models/CustomDate';
-import { DayDialog } from '../dialogs/day-dialog/day-dialog';
+import { Calendar } from '../../models/Calendar';
+import { Task } from '../../models/Task';
+import { CustomDate } from '../../models/CustomDate';
+import { DayDialog } from '../../dialogs/day-dialog/day-dialog';
 
-import { TaskService } from '../services/task.service';
+import { TaskService } from '../../services/task.service';
 
 @Component({
   selector: 'calendar',
@@ -17,7 +18,7 @@ export class CalendarComponent implements OnInit {
   tasks: Task[];
   selectedDate: any;
 
-  constructor(private _dialog: MdDialog, private _taskService: TaskService) {
+  constructor(private _dialog: MdDialog, private _taskService: TaskService, private _router: Router) {
     this.calendar = new Calendar();
     this.tasks = <Task[]>[];
   }
@@ -104,6 +105,8 @@ export class CalendarComponent implements OnInit {
   }
 
   incrementMonth() {
+    this.tasks = this._taskService.getTasksFromLocalStorage();
+
     this.calendar.days = [];
 
     if (this.calendar.currDate.getMonth() === 11) {
@@ -114,10 +117,11 @@ export class CalendarComponent implements OnInit {
         this.calendar.currDate.getMonth() + 1, this.calendar.currDate.getDate());
     }
     this.createCalendarFromDate(this.calendar.currDate);
-    this.defineColorOfTheDays();
   }
 
   decrementMonth() {
+    this.tasks = this._taskService.getTasksFromLocalStorage();
+
     this.calendar.days = [];
 
     if (this.calendar.currDate.getMonth() === 0) {
@@ -128,15 +132,14 @@ export class CalendarComponent implements OnInit {
         this.calendar.currDate.getMonth() - 1, this.calendar.currDate.getDate());
     }
     this.createCalendarFromDate(this.calendar.currDate);
-    this.defineColorOfTheDays();
   }
 
-  openDayDialog(day: any, index: number) {    
+  openDayDialog(day: any, index: number) {
     /*
       * If day not exist we must define inc or dec month
     */
-    if (day === '') { 
-      (index > 15) ? this.incrementMonth() : this.decrementMonth(); 
+    if (day === '') {
+      (index > 15) ? this.incrementMonth() : this.decrementMonth();
       return;
     }
 
@@ -151,7 +154,6 @@ export class CalendarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.selectedDate = '-'; // another value which doesn't exist in the calendar
       this.createCalendarFromDate(this.calendar.currDate);
-      this.defineColorOfTheDays();
     });
   }
 }
