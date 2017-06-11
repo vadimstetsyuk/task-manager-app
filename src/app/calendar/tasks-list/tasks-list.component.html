@@ -3,6 +3,7 @@
 <md-toolbar>
   <div class="search">
     <md-input-container>
+      <span mdPrefix><i class="material-icons">search</i></span>
       <input mdInput #search placeholder="Type a task..." (keyup)="filterTasks(search.value)">
     </md-input-container>
   </div>
@@ -25,11 +26,11 @@
       <md-list-item *ngFor="let task of filteredTasks">
         <md-icon md-list-icon>assignment</md-icon>
         <h4 md-line>{{task.title}}</h4>
-        <p md-line> {{task.start.month}}.{{task.start.date}}.{{task.start.year}} </p>
+        <p md-line>{{ task.start | date }}</p>
         <p md-line>{{ task.duration }} m.</p>
         <md-chip class="row-item" color="grey" selected="true">Priority:{{ task.priority }}</md-chip>
         <md-chip class="row-item" [style.background]="defineColorTime(task)" selected="true">
-          {{ task.start.hours }}:{{ task.start.minutes }}
+          {{ task.start | date:'HH:mm' }}
         </md-chip>
         <button md-raised-button (click)="openEditTaskDialog(task)">Edit</button>
         <button md-mini-fab color="warn" (click)="deleteTask(task)"><md-icon>delete</md-icon></button>
@@ -48,8 +49,7 @@
             </div>
             <md-card-title>{{task.title}}</md-card-title>
             <md-card-subtitle>
-                              {{task.start.month}}.{{task.start.date}}.{{task.start.year}} |
-                              {{ task.start.hours }}:{{ task.start.minutes }}
+                              {{task.start | date }} | {{ task.start | date:'HH:mm' }}
             </md-card-subtitle>
           </md-card-header>
           <md-card-content>

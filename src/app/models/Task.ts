@@ -1,13 +1,14 @@
 import { CustomDate } from './CustomDate';
 
 export class Task {
+    id: number;
     title: string;
-    start: CustomDate;
+    start: Date;
     duration: number;
     priority: number;
     description: string;
 
-    constructor(title, start: CustomDate, duration, priority, description) {
+    constructor(title: string, start: Date, duration: number, priority: number, description: string) {
         this.title = title;
         this.start = start;
         this.duration = duration;

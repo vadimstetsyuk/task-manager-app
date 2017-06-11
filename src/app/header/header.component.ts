@@ -16,8 +16,4 @@ export class HeaderComponent {
     openAddTaskDialog() {
         this._router.navigate(['add']);
     }
-
-    openUploadTasksDialog() {
-    }
-
 }

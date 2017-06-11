@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { Calendar } from '../../models/Calendar';
 import { Task } from '../../models/Task';
-import { CustomDate } from '../../models/CustomDate';
 import { DayDialog } from '../../dialogs/day-dialog/day-dialog';
 
 import { TaskService } from '../../services/task.service';
@@ -20,7 +19,7 @@ export class CalendarComponent implements OnInit {
 
   constructor(private _dialog: MdDialog, private _taskService: TaskService, private _router: Router) {
     this.calendar = new Calendar();
-    this.tasks = <Task[]>[];
+    this.tasks = [];
   }
 
   ngOnInit() {
@@ -33,13 +32,16 @@ export class CalendarComponent implements OnInit {
     { title: 'Friday', color: 'lightgrey' },
     { title: 'Saturday', color: 'lightgrey' },
     { title: 'Sunday', color: 'lightgrey' }];
+    console.log('On Init calendar');
 
-    this.createCalendarFromDate(this.calendar.currDate);
+    this.getTasks();
   }
 
+  /*
+  * Create grid from card with date on every one for current month
+  */
   createCalendarFromDate(date: Date) {
     this.calendar.days = [];
-    this.tasks = this._taskService.getTasksFromLocalStorage();
 
     var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -67,17 +69,26 @@ export class CalendarComponent implements OnInit {
       }
     }
 
-    if (this.tasks)
+    if (this.tasks) {
       this.defineColorOfTheDays();
+    }
   }
 
+  /*
+  * Define color of the cards for current month
+  * If there are no tasks for date - color will white
+  * 1-2 - green
+  * 3-4 - yellow
+  * 5-over - red
+  */
   defineColorOfTheDays() {
     // defining the color of day
     for (let i = 0; i < this.calendar.days.length; i++) {
       let countTaskForDay = 0;
       for (let j = 0; j < this.tasks.length; j++) {
-        let currDate = (this.calendar.currDate.getMonth() + 1) + '.' + this.calendar.days[i].title + "." + this.calendar.currDate.getFullYear();
-        let taskDate = this.tasks[j].start.month + '.' + this.tasks[j].start.date + '.' + this.tasks[j].start.year;
+        let currDate = (this.calendar.currDate.getMonth()) + '.' + this.calendar.days[i].title + "." + this.calendar.currDate.getFullYear();
+
+        let taskDate = this.tasks[j].start.getMonth() + '.' + this.tasks[j].start.getDate() + '.' + this.tasks[j].start.getFullYear();
         if (taskDate == currDate)
           countTaskForDay++;
       }
@@ -104,9 +115,10 @@ export class CalendarComponent implements OnInit {
     }
   }
 
+  /*
+  * Generate grid for next month
+  */
   incrementMonth() {
-    this.tasks = this._taskService.getTasksFromLocalStorage();
-
     this.calendar.days = [];
 
     if (this.calendar.currDate.getMonth() === 11) {
@@ -119,9 +131,10 @@ export class CalendarComponent implements OnInit {
     this.createCalendarFromDate(this.calendar.currDate);
   }
 
+  /*
+  * Generate grid for previous month
+  */
   decrementMonth() {
-    this.tasks = this._taskService.getTasksFromLocalStorage();
-
     this.calendar.days = [];
 
     if (this.calendar.currDate.getMonth() === 0) {
@@ -134,6 +147,9 @@ export class CalendarComponent implements OnInit {
     this.createCalendarFromDate(this.calendar.currDate);
   }
 
+  /*
+  * Open dialog for selected day
+  */
   openDayDialog(day: any, index: number) {
     /*
       * If day not exist we must define inc or dec month
@@ -148,12 +164,31 @@ export class CalendarComponent implements OnInit {
     let dialogRef = this._dialog.open(DayDialog, {
       height: '500px',
       width: '800px',
-      data: (this.calendar.currDate.getMonth() + 1) + '.' + this.selectedDate + '.' + this.calendar.currDate.getFullYear()
+      data: this.selectedDate + '.' + (this.calendar.currDate.getMonth() + 1) + '.' + this.calendar.currDate.getFullYear()
     });
 
     dialogRef.afterClosed().subscribe(result => {
       this.selectedDate = '-'; // another value which doesn't exist in the calendar
-      this.createCalendarFromDate(this.calendar.currDate);
+      this.getTasks();
     });
+  }
+
+  /*
+  * Get all tasks from server
+  */
+  getTasks() {
+    this._taskService.getTasks()
+      .subscribe((tasks) => {
+        this.tasks = tasks;
+        this.tasks.forEach(task => {
+          let dateTimestamp = Date.parse(task.start.toString());
+          task.start = new Date(dateTimestamp);
+        });
+
+        this.createCalendarFromDate(this.calendar.currDate);
+      },
+      err => {
+        console.log(err);
+      });
   }
 }

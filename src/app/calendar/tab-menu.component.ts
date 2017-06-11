@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'tab-menu',
@@ -8,11 +9,12 @@ import { Component } from '@angular/core';
 
 export class TabMenuComponent {
     routeLinks: any[];
-    activeLinkIndex = 0;
+    activeLinkIndex: number;
 
-    constructor() {
+    constructor(private _router: Router) {
         this.routeLinks = [
-            { label: 'Calendar', link: 'calendar' },
+            { label: 'Calendar', link: '' },
             { label: 'Tasks', link: 'tasks' }];
+        this.activeLinkIndex = 0;
     }
 }

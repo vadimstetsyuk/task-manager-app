@@ -16,14 +16,12 @@ export class TasksListComponent implements OnInit {
 
     constructor(private _taskService: TaskService,
         private _router: Router) {
-        this.tasks = [];
         this.viewType = false;
         this.filteredTasks = [];
     }
 
     ngOnInit() {
-        this.tasks = this._taskService.getTasksFromLocalStorage();
-        this.filteredTasks = this.tasks;
+        this.getTasks();
     }
 
     /*
@@ -43,9 +41,7 @@ export class TasksListComponent implements OnInit {
     */
     openEditTaskDialog(task: Task) {
         if (this.tasks.includes(task)) {
-            let routeIndex = this.tasks.indexOf(task);
-
-            let editTaskUrl = ['/edit/' + routeIndex];
+            let editTaskUrl = ['/edit/' + task.id];
 
             this._router.navigate(editTaskUrl);
         }
@@ -55,15 +51,15 @@ export class TasksListComponent implements OnInit {
      * Delete task from list
     */
     deleteTask(task: Task) {
-        let index = this.tasks.indexOf(task);
-        let indexOfFilteredTasks = this.filteredTasks.indexOf(task);
+        let indexOfTask = this.tasks.indexOf(task);
 
-        if (index > -1) {
-            this.tasks.splice(index, 1);
-            this.filteredTasks.splice(indexOfFilteredTasks, 1);
-        }
+        this._taskService.deleteTask(task.id)
+            .subscribe((result) => {
+                console.log(result)
+                this.tasks.splice(indexOfTask, 1);
+            });
 
-        this._taskService.setTasksToLocalStorage(this.tasks);
+        this.getTasks();
     }
 
     /*
@@ -74,15 +70,15 @@ export class TasksListComponent implements OnInit {
         let result = "red";
 
         // task date
-        let date = task.start.date;
-        let month = task.start.month;
-        let year = task.start.year;
-        let hours = task.start.hours * 60;
-        let minutes = task.start.minutes;
+        let date = task.start.getDate();
+        let month = task.start.getMonth();
+        let year = task.start.getFullYear();
+        let hours = task.start.getHours() * 60;
+        let minutes = task.start.getMinutes();
         let duration = task.duration;
 
         var now = new Date();
-        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).valueOf();
+        var today = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate()).valueOf();
         var otherDay = new Date(year, month - 1, date).valueOf();
 
         if (otherDay < today) { // 24*60*60*1000 BEFORE
@@ -99,5 +95,26 @@ export class TasksListComponent implements OnInit {
     */
     toogleView() {
         this.viewType = !this.viewType;
+    }
+
+    /*
+    * Get all tasks from server
+    */
+    getTasks() {
+        this._taskService.getTasks()
+            .subscribe((tasks) => {
+                this.tasks = tasks;
+                this.tasks.forEach(task => {
+                    let dateTimestamp = Date.parse(task.start.toString());
+                    task.start = new Date(dateTimestamp);
+                });
+                this.filteredTasks = this.tasks;
+            },
+            err => {
+                console.log(err);
+            });
+
+        if (this.tasks)
+            console.log(this.tasks);
     }
 }

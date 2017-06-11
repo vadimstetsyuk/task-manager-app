@@ -20,71 +20,97 @@ export class DayDialog implements OnInit {
   }
 
   ngOnInit() {
-    this.tasks = this._taskService.getTasksFromLocalStorage();
-    if (this.tasks) {
-      this.getActualTasks();
-    }
+    this.getTasks();
   }
 
+  /*
+  * Filtrate tasks for selected date
+  */
   getActualTasks() {
     this.actualTasks = [];
 
     for (let i = 0; i < this.tasks.length; i++) {
-      let taskDate = this.tasks[i].start.month + '.' + this.tasks[i].start.date + '.' + this.tasks[i].start.year;
+      //parsing date
+      let dateTimestamp = Date.parse(this.tasks[i].start.toString());
+      this.tasks[i].start = new Date(dateTimestamp);
+      // parsing date
+
+      let taskDate = this.tasks[i].start.getDate() + '.' + (this.tasks[i].start.getMonth() + 1) + '.' + + this.tasks[i].start.getFullYear();
       if (taskDate === this.selectedDate)
         this.actualTasks.push(this.tasks[i]);
     }
     this.sortingByPriority();
   }
 
+  /*
+  * Delete task by id
+  */
   deleteTask(task: Task) {
-    let index = this.tasks.indexOf(task);
+    let indexOfTask = this.tasks.indexOf(task);
+    let indexOfActualTask = this.actualTasks.indexOf(task);
 
-    if (index > -1)
-      this.tasks.splice(index, 1);
+    this._taskService.deleteTask(task.id)
+      .subscribe((result) => {
+        this.actualTasks.splice(indexOfActualTask, 1);
+        this.tasks.splice(indexOfTask, 1);
+      });
 
     this.getActualTasks();
-
-    this._taskService.setTasksToLocalStorage(this.tasks);
   }
 
+  /*
+  * Open form for adding task
+  */
   openAddDialog() {
     this.dialogRef.close();
     this._router.navigate(['/add']);
   }
 
-  openEditDialog(task) {
+  /*
+  * Open form for update already existing task
+  */
+  openEditDialog(task: Task) {
     this.dialogRef.close();
-    let editTaskUrl = ['/edit/' + this.tasks.indexOf(task)];
+    let editTaskUrl = ['/edit/' + task.id];
 
     this._router.navigate(editTaskUrl);
   }
 
+  /*
+  * Sort all tasks for selected date by priority
+  */
   sortingByPriority() {
     this.actualTasks.sort((a, b) => { return (a.priority > b.priority) ? 1 : ((b.priority > a.priority) ? -1 : 0); });
   }
 
+  /*
+  * Sort all tasks for selected date by time
+  */
   sortingByTime() {
+    //parsing date
     this.actualTasks.sort((a, b) => {
-      return (a.start.hours * 60 + a.start.minutes > b.start.hours * 60 + b.start.minutes)
+      return (a.start.getHours() * 60 + a.start.getMinutes() > b.start.getHours() * 60 + b.start.getMinutes())
         ? 1 :
-        ((b.start.hours * 60 + b.start.minutes > a.start.hours * 60 + a.start.minutes) ? -1 : 0);
+        ((b.start.getHours() * 60 + b.start.getMinutes() > a.start.getHours() * 60 + a.start.getMinutes()) ? -1 : 0);
     });
   }
 
+  /*
+   * If day is yesterday or latest - color will be red
+   * If day is today or tomorrow - color will be green
+  */
   defineColorTime(task: Task): string {
     let result = "red";
 
-    // task date
-    let date = task.start.date;
-    let month = task.start.month;
-    let year = task.start.year;
-    let hours = task.start.hours * 60;
-    let minutes = task.start.minutes;
+    let date = task.start.getDate();
+    let month = task.start.getMonth();
+    let year = task.start.getFullYear();
+    let hours = task.start.getHours() * 60;
+    let minutes = task.start.getMinutes();
     let duration = task.duration;
 
     var now = new Date();
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).valueOf();
+    var today = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate()).valueOf();
     var otherDay = new Date(year, month - 1, date).valueOf();
 
     if (otherDay < today) { // 24*60*60*1000 BEFORE
@@ -94,5 +120,26 @@ export class DayDialog implements OnInit {
     }
 
     return result;
+  }
+
+  /*
+  * Get all tasks from server
+  */
+  getTasks() {
+    this._taskService.getTasks()
+      .subscribe((tasks) => {
+        this.tasks = tasks;
+        this.tasks.forEach(task => {
+          let dateTimestamp = Date.parse(task.start.toString());
+          task.start = new Date(dateTimestamp);
+        });
+        this.getActualTasks();
+      },
+      err => {
+        console.log(err);
+      });
+
+    if (this.tasks)
+      console.log(this.tasks);
   }
 }

@@ -16,11 +16,11 @@
         <md-list-item class="task" *ngFor="let task of actualTasks">
             <md-icon md-list-icon>assignment</md-icon>
             <h4 md-line>{{task.title}}</h4>
-            <p md-line> {{task.start.month}}.{{task.start.date}}.{{task.start.year}} </p>
+            <p md-line>{{ task.start | date }}</p>
             <p md-line>{{ task.duration }} m.</p>
             <md-chip class="row-item" color="grey" selected="true">Priority:{{ task.priority }}</md-chip>
             <md-chip class="row-item" [style.background]="defineColorTime(task)" selected="true">
-                {{ task.start.hours }}:{{ task.start.minutes }}
+                {{ task.start | date:'HH:mm' }}
             </md-chip>
             <button md-raised-button color="primary" (click)="openEditDialog(task)">Edit</button>
             <button md-mini-fab color="warn" (click)="deleteTask(task)"><md-icon>delete</md-icon></button>
