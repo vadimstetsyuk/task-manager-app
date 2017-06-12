@@ -32,7 +32,6 @@ export class CalendarComponent implements OnInit {
     { title: 'Friday', color: 'lightgrey' },
     { title: 'Saturday', color: 'lightgrey' },
     { title: 'Sunday', color: 'lightgrey' }];
-    console.log('On Init calendar');
 
     this.getTasks();
   }

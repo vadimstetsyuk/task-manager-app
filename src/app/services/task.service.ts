@@ -30,6 +30,14 @@ export class TaskService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
 
+    getTasksByDate(day: number, month: number, year: number) : Observable<Task[]> {
+        let url = SERVER_NAME + 'schedule/' + year + '/' + month + '/' + day;
+
+        return this.http.get(url)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
     addTask(_task: Task): Observable<Task> {
         let body = JSON.stringify(_task);
         let headers = new Headers({ 'Content-Type': 'application/json' });

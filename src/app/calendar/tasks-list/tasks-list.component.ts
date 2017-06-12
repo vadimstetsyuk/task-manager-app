@@ -55,7 +55,6 @@ export class TasksListComponent implements OnInit {
 
         this._taskService.deleteTask(task.id)
             .subscribe((result) => {
-                console.log(result)
                 this.tasks.splice(indexOfTask, 1);
             });
 
@@ -113,8 +112,5 @@ export class TasksListComponent implements OnInit {
             err => {
                 console.log(err);
             });
-
-        if (this.tasks)
-            console.log(this.tasks);
     }
 }

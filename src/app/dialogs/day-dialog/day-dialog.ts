@@ -9,53 +9,29 @@ import { TaskService } from '../../services/task.service';
   styleUrls: ['./day-dialog.css']
 })
 export class DayDialog implements OnInit {
-  tasks: Task[];
   actualTasks: Task[];
 
   constructor(public dialogRef: MdDialogRef<DayDialog>,
-    @Inject(MD_DIALOG_DATA) public selectedDate: any,
+    @Inject(MD_DIALOG_DATA) public selectedDate: string,
     private _router: Router,
     private _taskService: TaskService) {
     this.actualTasks = [];
   }
 
   ngOnInit() {
-    this.getTasks();
-  }
-
-  /*
-  * Filtrate tasks for selected date
-  */
-  getActualTasks() {
-    this.actualTasks = [];
-
-    for (let i = 0; i < this.tasks.length; i++) {
-      //parsing date
-      let dateTimestamp = Date.parse(this.tasks[i].start.toString());
-      this.tasks[i].start = new Date(dateTimestamp);
-      // parsing date
-
-      let taskDate = this.tasks[i].start.getDate() + '.' + (this.tasks[i].start.getMonth() + 1) + '.' + + this.tasks[i].start.getFullYear();
-      if (taskDate === this.selectedDate)
-        this.actualTasks.push(this.tasks[i]);
-    }
-    this.sortingByPriority();
+    this.getActualTasks();
   }
 
   /*
   * Delete task by id
   */
   deleteTask(task: Task) {
-    let indexOfTask = this.tasks.indexOf(task);
-    let indexOfActualTask = this.actualTasks.indexOf(task);
+    let indexOfTask = this.actualTasks.indexOf(task);
 
     this._taskService.deleteTask(task.id)
       .subscribe((result) => {
-        this.actualTasks.splice(indexOfActualTask, 1);
-        this.tasks.splice(indexOfTask, 1);
+        this.actualTasks.splice(indexOfTask, 1);
       });
-
-    this.getActualTasks();
   }
 
   /*
@@ -125,21 +101,23 @@ export class DayDialog implements OnInit {
   /*
   * Get all tasks from server
   */
-  getTasks() {
-    this._taskService.getTasks()
+  getActualTasks() {
+    let splittedDate = this.selectedDate.split('.');
+    let day = Number(splittedDate[0]);
+    let month = Number(splittedDate[1]);
+    let year = Number(splittedDate[2]);
+
+    this._taskService.getTasksByDate(day, month, year)
       .subscribe((tasks) => {
-        this.tasks = tasks;
-        this.tasks.forEach(task => {
+        this.actualTasks = tasks;
+
+        this.actualTasks.forEach(task => {
           let dateTimestamp = Date.parse(task.start.toString());
           task.start = new Date(dateTimestamp);
         });
-        this.getActualTasks();
       },
       err => {
         console.log(err);
       });
-
-    if (this.tasks)
-      console.log(this.tasks);
   }
 }
