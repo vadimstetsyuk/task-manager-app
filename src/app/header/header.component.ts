@@ -16,4 +16,8 @@ export class HeaderComponent {
     openAddTaskDialog() {
         this._router.navigate(['add']);
     }
+
+    goToHomepage() {
+        this._router.navigateByUrl('/');        
+    }
 }

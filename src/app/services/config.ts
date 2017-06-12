@@ -1,1 +1,1 @@
-export const SERVER_NAME = 'http://localhost:3000/api/';
+export const SERVER_NAME = 'https://task-manager-app-material.herokuapp.com/api/';

@@ -85,7 +85,7 @@ export class CalendarComponent implements OnInit {
     for (let i = 0; i < this.calendar.days.length; i++) {
       let countTaskForDay = 0;
       for (let j = 0; j < this.tasks.length; j++) {
-        let currDate = (this.calendar.currDate.getMonth()) + '.' + this.calendar.days[i].title + "." + this.calendar.currDate.getFullYear();
+        let currDate = (this.calendar.currDate.getMonth()) + '.' + this.calendar.days[i].title + '.' + this.calendar.currDate.getFullYear();
 
         let taskDate = this.tasks[j].start.getMonth() + '.' + this.tasks[j].start.getDate() + '.' + this.tasks[j].start.getFullYear();
         if (taskDate == currDate)
